@@ -57,7 +57,7 @@ export default function MainContent() {
             </Card>
           </Col>
         </Row>
-
+        <hr style={{marginTop: 0}} />
         <Row className={`${styles.masonrySection} h-50`}>
             <Col md={6}>
                 <div className={`${styles.masonry}`}>
@@ -69,12 +69,12 @@ export default function MainContent() {
                 ))}
                 </div>
             </Col>
-            <Col md={6} className={`${styles.galleryCol}`}>
+            <Col md={6} className={`m-0 p-0 ${styles.galleryCol}`}>
                 <Image src="/images/grand-image.jpg" fluid className={`${styles.galleryImage}`} />
                 <Link href="/gallery"><Button className={`${styles.galleryButton}`}>Ir a la Galería →</Button></Link>
             </Col>
         </Row>
-        <hr />
+        <hr style={{marginBottom: 0}} />
 
         <Row className={`${styles.contactSection} justify-content-center align-items-center`}>
             <Col xs={12} sm={8} md={6}>

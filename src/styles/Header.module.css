@@ -16,3 +16,19 @@
     font-weight: bold;
     color: #0070f3;
   }  
+
+  .navLink {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+  }
+  
+  .navLink:hover {
+    color: #0070f3;
+  }
+  
+  .active {
+    color: #0070f3;
+    border-bottom: 2px solid #0070f3;
+  }
+  

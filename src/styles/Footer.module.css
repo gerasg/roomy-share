@@ -1,4 +1,11 @@
-.footerContainer {
-    height: 60px;
+
+
+
+  .footerContainer {
+    height: 100px; /* Ajusta este valor a tus necesidades */
     border-top: 1px solid #dee2e6;
-  }  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
