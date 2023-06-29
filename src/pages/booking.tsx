@@ -10,11 +10,11 @@ import styles from '../styles/Booking.module.css'
 export default function Booking() {
   const [rooms, setRooms] = useState([]);
   const [value, setValue] = useState([new Date(), new Date()]);
-  const [bookingForm, setBookingForm] = useState({open: false, roomNumber: null});
   const [errorMessage, setErrorMessage] = useState(null);
   const [step, setStep] = useState(1);
   const [bookingData, setBookingData] = useState({name: '', email: ''});
   const [showModal, setShowModal] = useState(false);
+  const [bookingForm, setBookingForm] = useState({open: false, roomNumber: null, roomName: ''});
 
   useEffect(() => {
     fetchRooms(value);
@@ -102,19 +102,30 @@ export default function Booking() {
         )}
         {step === 2 && (
           <div className={styles['room-cards']}>
-            <Step2 rooms={rooms} onSelectRoom={handleSelectRoom} setStep={setStep} />
+            <Step2 rooms={rooms} onSelectRoom={handleSelectRoom} setStep={setStep} step={step} />
           </div>
         )}
-         {step === 3 && (
-          <Step3 
-            onSubmitForm={handleSubmitForm} 
-            setStep={setStep} 
-            setShowModal={setShowModal} 
-            showModal={showModal}  // Agrega esta línea
-          />
+        {step === 3 && (
+          <Container>
+            <Step3 
+              onSubmitForm={handleSubmitForm} 
+              roomNumber={bookingForm.roomNumber}
+              setStep={setStep} 
+              step={step} 
+              setShowModal={setShowModal} 
+              showModal={showModal} 
+            />
+          </Container>
         )}
         {step === 4 && (
-          <Step4 bookingData={bookingData} onConfirm={handleConfirm} setStep={setStep} />
+          <Container>
+            <Step4 
+              bookingData={bookingForm}
+              onConfirm={handleConfirm} 
+              setStep={setStep} 
+              step={step} 
+            />
+          </Container>
         )}
         {step === 5 && (
           <Step5 />
@@ -139,7 +150,7 @@ function Step1({ value, onDateChange }) {
   );
 }
 
-function Step2({ rooms, onSelectRoom, setStep }) {
+function Step2({ rooms, onSelectRoom, setStep, step }) {
   return (
     <Row xs={1} sm={2} md={4} className="g-4">
       {rooms.map(room => (
@@ -160,13 +171,13 @@ function Step2({ rooms, onSelectRoom, setStep }) {
           </div>
         </Col>
       ))}
-    <Button onClick={() => setStep(step - 1)}>Volver</Button>
+    <Button className="mt-2 w-auto" onClick={() => setStep(step - 1)}>Volver</Button>
     </Row>
   );
 }
 
 
-function Step3({ onSubmitForm, roomNumber, setStep, setShowModal, showModal }) {
+function Step3({ onSubmitForm, roomNumber, setStep, step, setShowModal, showModal }) {
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -273,7 +284,7 @@ function Step3({ onSubmitForm, roomNumber, setStep, setShowModal, showModal }) {
 
       <Form.Group className="mb-3" controlId="validationCustom06">
         <Form.Label>Habitación</Form.Label>
-        <Form.Control plaintext readOnly value={`Habitación ${formData.room}`} />
+        <Form.Control plaintext readOnly value={`Habitación ${roomNumber}`} />
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -309,12 +320,12 @@ function Step3({ onSubmitForm, roomNumber, setStep, setShowModal, showModal }) {
         </Modal.Footer>
       </Modal>
       <Button type="submit">Enviar formulario</Button>
-      <Button onClick={() => setStep(step - 1)}>Volver</Button>
+      <Button className="mt-2 w-auto" onClick={() => setStep(step - 1)}>Volver</Button>
     </Form>
   );
 }
 
-function Step4({ bookingData, onConfirm }) {
+function Step4({ bookingData, onConfirm, setStep, step }) {
   return (
     <div>
       <p>Nombre Completo: {bookingData.name}</p>
@@ -322,7 +333,7 @@ function Step4({ bookingData, onConfirm }) {
       <Button variant="primary" onClick={onConfirm}>
         Confirmar
       </Button>
-      <Button onClick={() => setStep(step - 1)}>Volver</Button>
+      <Button className="mt-2 w-auto" onClick={() => setStep(step - 1)}>Volver</Button>
     </div>
   );
 }
