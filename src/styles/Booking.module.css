@@ -1,0 +1,53 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .reserveRoomTitle {
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  
+  .content {
+    flex: 1 0 auto; /* Esto permite que el contenido crezca para ocupar todo el espacio disponible, manteniendo el pie de página en la parte inferior */
+  }
+  
+  .footerContainer {
+    flex-shrink: 0; 
+    margin-top: auto; /* Esto empujará tu pie de página hacia abajo si hay espacio disponible */
+}
+  
+  .progressBar {
+    width: 60%;
+    margin: 20px auto;
+    height: 3rem;
+    font-size: 1rem;
+  }
+  
+  .instructions {
+    margin: 50px 0;
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+  }
+  
+  .datePicker {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .roomCards {
+    margin-top: 50px;
+  }  
+
+  @media (max-width: 576px) {
+    .progressBar {
+      display: none;
+    }
+  }
