@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
-import { Card, Button, Badge, Row, Col, Container, Form, ProgressBar, Modal } from 'react-bootstrap';
+import { Card, Button, Badge, Row, Col, Container, Form, ProgressBar, Modal, FloatingLabel } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Footer from '../components/Footer'
@@ -103,7 +103,7 @@ export default function Booking() {
   };
 
   const handleSelectRoom = (roomNumber) => {
-    setBookingForm({open: true, roomNumber: roomNumber});
+    setBookingData({ ...bookingData, room: roomNumber });
     setStep(3);
   };
 
@@ -220,8 +220,8 @@ function Step2({ rooms, onSelectRoom, setStep, step }) {
       ))}
       <div className={`mt-2 w-auto ${styles.stepTwoReturnButton}`}>
         <Button className="me-3 w-auto" onClick={() => setStep(step - 1)}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-return-left" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
           </svg> Volver 
         </Button>
       </div>      
@@ -230,8 +230,14 @@ function Step2({ rooms, onSelectRoom, setStep, step }) {
 }
 
 
-function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setShowModal, showModal, roomNumber }) {
+function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setShowModal, showModal }) {
   const [validated, setValidated] = useState(false);
+  const [privacyPolicyShow, setPrivacyPolicyShow] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handlePrivacyPolicyClose = () => setPrivacyPolicyShow(false);
+  const handleShow = () => setShowModal(true);
+  const handlePrivacyPolicyShow = () => setPrivacyPolicyShow(true);
 
   const handleChange = (e) => {
     setBookingData({
@@ -256,58 +262,81 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
   useEffect(() => {
     setBookingData(prevBookingData => ({
       ...prevBookingData,
-      room: roomNumber,
+      room: bookingData.room,
     }));
-  }, [roomNumber]);
+  }, [bookingData.room]);
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Row className="mb-3">
+      <Form.Group className="mb-3 d-flex align-items-center" controlId="validationCustom06">
+        <Form.Label className="mb-0 col-md-2 col-sm-9">Habitación seleccionada: </Form.Label>
+        <Form.Control plaintext readOnly className="col-md-10 col-sm-3" value={bookingData.room} />
+        
+      </Form.Group>
         <Form.Group as={Col} md="6" controlId="validationCustom01">
-          <Form.Label>Nombre</Form.Label>
-          <Form.Control
-            required
-            type="text"
+        <FloatingLabel
+          controlId="floatingInput"
+          label="Nombre"
+        >
+          <Form.Control 
+            type="text" 
             placeholder="Nombre"
             name="name"
+            required
             value={bookingData.name}
             onChange={handleChange}
             minLength="2"
           />
+        </FloatingLabel>
           <Form.Control.Feedback type="invalid">Por favor, proporciona un nombre válido.</Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group as={Col} md="6" controlId="validationCustom02">
-          <Form.Label>Apellidos</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Apellidos"
-            name="lastName"
-            value={bookingData.lastName}
-            onChange={handleChange}
-          />
+        <FloatingLabel
+            controlId="floatingInput"
+            label="Apellidos"
+            className="mb-3"
+          >
+            <Form.Control
+              required
+              type="text"
+              placeholder="Apellidos"
+              name="lastName"
+              value={bookingData.lastName}
+              onChange={handleChange}
+            />
+          </FloatingLabel>
           <Form.Control.Feedback type="invalid">Por favor, proporciona apellidos válidos.</Form.Control.Feedback>
         </Form.Group>
       </Row>
 
       <Row className="mb-3">
         <Form.Group as={Col} md="6" controlId="validationCustom03">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            required
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={bookingData.email}
-            onChange={handleChange}
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-          />
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Email"
+              className="mb-3"
+            >
+            <Form.Control
+              required
+              type="email"
+              placeholder="Email"
+              name="email"
+              value={bookingData.email}
+              onChange={handleChange}
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            />
+          </FloatingLabel>
           <Form.Control.Feedback type="invalid">Por favor, proporciona un email válido.</Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group as={Col} md="6" controlId="validationCustom04">
-          <Form.Label>Teléfono</Form.Label>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="Teléfono"
+            className="mb-3"
+          >
           <Form.Control
             required
             type="tel"
@@ -316,12 +345,12 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
             value={bookingData.phone}
             onChange={handleChange}
           />
+          </FloatingLabel>
           <Form.Control.Feedback type="invalid">Por favor, proporciona un número de teléfono válido.</Form.Control.Feedback>
         </Form.Group>
       </Row>
 
       <Form.Group className="mb-3" controlId="validationCustom05">
-        <Form.Label>Mensaje</Form.Label>
         <Form.Control
           as="textarea"
           placeholder="Mensaje"
@@ -332,37 +361,56 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
         />
         <Form.Control.Feedback type="invalid">Tu mensaje es demasiado largo.</Form.Control.Feedback>
       </Form.Group>
-
-      <Form.Group className="mb-3" controlId="validationCustom06">
-        <Form.Label>Habitación</Form.Label>
-        <Form.Control plaintext readOnly value={`Habitación ${roomNumber}`} />
-      </Form.Group>
-
       <Form.Group className="mb-3">
         <Form.Check
           required
-          name="acceptTerms"
-          checked={bookingData.acceptTerms}
-          onChange={handleChange}
-          feedback="Debes aceptar antes de enviar."
-          feedbackType="invalid"
           label={
             <>
-              Acepto los{" "}
-              <span onClick={() => setShowModal(true)} style={{ color: 'blue', cursor: 'pointer' }}>
-                términos y condiciones
-              </span>
+              Acepto los {" "}
+              <a href="#" onClick={(e) => { e.preventDefault(); handleShow(); }}>
+                Términos y Condiciones
+              </a>
+              {" "} y la {" "}
+              <a href="#" onClick={(e) => { e.preventDefault(); handlePrivacyPolicyShow(); }}>
+                Política de Privacidad
+              </a>
             </>
           }
+          feedback="Debes aceptar antes de enviar."
+          feedbackType="invalid"
         />
       </Form.Group>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Términos y Condiciones</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          {/* Aquí es donde pones tus términos y condiciones */}
-          <p>Tus términos y condiciones van aquí.</p>
+        <Modal.Body className="modal-body-scrollable">
+          <h4>Acuerdo de consulta de reservas</h4>
+          <p>Al enviar una consulta de reserva a través de nuestro sitio web, usted ("el Usuario") acepta estos términos y condiciones.</p>
+
+          <h5>1. Proceso de consulta</h5>
+          <p>El envío de una consulta de reserva a través de nuestro sitio web no garantiza que la habitación esté reservada para el Usuario. La reserva está sujeta a la disponibilidad de la habitación y a la revisión de la información proporcionada por el Usuario. Una vez enviada la consulta, el propietario revisará la consulta y se pondrá en contacto con el Usuario para confirmar la disponibilidad y la aceptación de la reserva.</p>
+
+          <h5>2. Responsabilidades del Usuario</h5>
+          <p>El Usuario garantiza que toda la información proporcionada en la consulta es veraz y precisa. El Usuario es responsable de cualquier error o inexactitud en la información proporcionada.</p>
+
+          <h5>3. Confirmación de la reserva</h5>
+          <p>Si la reserva es aceptada por el propietario, el Usuario recibirá una confirmación de la reserva. La reserva no se considerará confirmada hasta que el Usuario reciba esta confirmación.</p>
+
+          <h5>4. Cancelación y cambios</h5>
+          <p>Las solicitudes de cancelación o cambios son posibles a través del formulario de contacto.</p>
+
+          <h5>5. Privacidad</h5>
+          <p>El propietario respeta la privacidad de los Usuarios y maneja sus datos personales de acuerdo con nuestra Política de Privacidad.</p>
+
+          <h5>6. Limitación de responsabilidad</h5>
+          <p>En la medida máxima permitida por la ley, el propietario no será responsable de ninguna pérdida, daño, costo o gasto incurrido en relación con cualquier consulta de reserva hecha a través de nuestro sitio web.</p>
+
+          <h5>7. Ley aplicable</h5>
+          <p>Estos términos y condiciones se rigen por las leyes del país donde se encuentra el hotel.</p>
+
+          <h5>8. Modificación de los términos</h5>
+          <p>El propietario se reserva el derecho de modificar estos términos y condiciones en cualquier momento sin previo aviso.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
@@ -370,8 +418,38 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
           </Button>
         </Modal.Footer>
       </Modal>
+      <Modal show={privacyPolicyShow} onHide={handlePrivacyPolicyClose} scrollable={true}>
+        <Modal.Header closeButton>
+          <Modal.Title>Política de Privacidad</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modal-body-scrollable">
+        <h4>Política de Privacidad</h4>
+        <p>Al utilizar nuestro sitio web y enviar una consulta de reserva, usted acepta nuestra Política de Privacidad.</p>
+
+        <h5>1. Recopilación de datos</h5>
+        <p>Recopilamos información que usted proporciona directamente a nosotros a través de la consulta de reserva. Esto incluye su nombre, correo electrónico, número de teléfono y cualquier otro detalle proporcionado en el formulario de consulta.</p>
+
+        <h5>2. Uso de datos</h5>
+        <p>Utilizamos la información recopilada para procesar su consulta de reserva y ponernos en contacto con usted. No compartimos su información personal con terceros sin su consentimiento explícito, a menos que sea necesario para cumplir con la ley o una orden judicial.</p>
+
+        <h5>3. Seguridad de los datos</h5>
+        <p>Implementamos medidas de seguridad para proteger su información personal. Sin embargo, ninguna medida de seguridad es 100% segura y, por lo tanto, no podemos garantizar la seguridad total de su información personal.</p>
+
+        <h5>4. Cookies y tecnologías de seguimiento</h5>
+        <p>Nuestro sitio web puede utilizar cookies y otras tecnologías de seguimiento para mejorar su experiencia de usuario.</p>
+
+        <h5>5. Cambios a esta política</h5>
+        <p>Nos reservamos el derecho de cambiar esta política de privacidad en cualquier momento sin previo aviso. Cualquier cambio se publicará en nuestro sitio web.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handlePrivacyPolicyClose}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <Button className="me-3 w-auto" onClick={() => setStep(step - 1)}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-return-left" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
         </svg> Volver 
       </Button>
