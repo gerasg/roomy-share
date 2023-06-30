@@ -66,6 +66,7 @@ typings/
 
 # next.js build output
 .next
++.next/*
 
 # Netlify build directory
 .netlify
