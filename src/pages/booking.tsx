@@ -100,9 +100,10 @@ export default function Booking() {
   };
 
   const handleSubmitForm = (formData) => {
-    setBookingData(formData);
+    setBookingData({ ...formData });
+    setBookingForm({ open: false, roomNumber: null, roomName: '' });
     setStep(4);
-  };
+  };  
 
   const handleConfirm = () => {
     bookRoom(bookingForm.roomNumber);
@@ -145,7 +146,7 @@ export default function Booking() {
         {step === 4 && (
           <Container>
             <Step4 
-              bookingData={bookingForm}
+              bookingData={bookingData}
               onConfirm={handleConfirm} 
               setStep={setStep} 
               step={step} 
@@ -167,7 +168,10 @@ function Step1({ value, onDateChange }) {
     <>
       <div className={styles.instructions}>
         <div className={styles.message1}>
-          <p>👇 Por favor, elige las fechas en las que te gustaría entrar a vivir 👇</p>
+          <p>Por favor, elige las fechas en las que te gustaría entrar a vivir</p>
+          <div className={styles.emojiContainer}>
+            <p className={styles.emoji}>👇</p>
+          </div>
         </div>
         <div className={styles.message2}>
           <p>Por favor, elige las fechas en las que te gustaría entrar a vivir</p>
@@ -204,7 +208,13 @@ function Step2({ rooms, onSelectRoom, setStep, step }) {
           </div>
         </Col>
       ))}
-    <Button className="mt-2 w-auto" onClick={() => setStep(step - 1)}>Volver</Button>
+      <div className={`mt-2 w-auto ${styles.stepTwoReturnButton}`}>
+        <Button className="me-3 w-auto" onClick={() => setStep(step - 1)}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
+          </svg> Volver 
+        </Button>
+      </div>      
     </Row>
   );
 }
@@ -352,22 +362,33 @@ function Step3({ onSubmitForm, roomNumber, setStep, step, setShowModal, showModa
           </Button>
         </Modal.Footer>
       </Modal>
+      <Button className="me-3 w-auto" onClick={() => setStep(step - 1)}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
+        </svg> Volver 
+      </Button>
       <Button type="submit">Enviar formulario</Button>
-      <Button className="mt-2 w-auto" onClick={() => setStep(step - 1)}>Volver</Button>
     </Form>
   );
 }
 
 function Step4({ bookingData, onConfirm, setStep, step }) {
   return (
-    <div>
-      <p>Nombre Completo: {bookingData.name}</p>
-      <p>Email: {bookingData.email}</p>
-      <Button variant="primary" onClick={onConfirm}>
-        Confirmar
-      </Button>
-      <Button className="mt-2 w-auto" onClick={() => setStep(step - 1)}>Volver</Button>
-    </div>
+    <>
+      <h2>Resumen de tu reserva</h2>
+
+      <p><strong>Nombre:</strong> {bookingData.name}</p>
+      <p><strong>Apellido:</strong> {bookingData.lastName}</p>
+      <p><strong>Email:</strong> {bookingData.email}</p>
+      <p><strong>Teléfono:</strong> {bookingData.phone}</p>
+      <p><strong>Mensaje:</strong> {bookingData.message}</p>
+      <p><strong>Habitación:</strong> {bookingData.room}</p>
+
+      <div className="d-flex mt-4">
+        <Button className="me-3" onClick={() => setStep(step - 1)}>Atrás</Button>
+        <Button variant="primary" onClick={onConfirm}>Confirmar</Button>
+      </div>
+    </>
   );
 }
 

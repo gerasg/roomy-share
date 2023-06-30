@@ -1,28 +1,28 @@
-/* Este es el contenedor principal que define cómo se mostrarán los elementos */
+/* This is the main container that dictates how the elements are displayed */
 .mainContainer {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* Estilos para el título de la sección de reserva de habitación */
+/* Styles for the reserve room section title */
 .reserveRoomTitle {
   margin-top: 50px;
   text-align: center;
 }
 
-/* El contenido principal del sitio, se ajustará para llenar el espacio disponible */
+/* The main content of the site, it will stretch to fill available space */
 .content {
   flex: 1 0 auto;
 }
 
-/* El contenedor del pie de página se encogerá si es necesario y se mantendrá en la parte inferior */
+/* The footer container will shrink if necessary and stay at the bottom */
 .footerContainer {
   flex-shrink: 0; 
   margin-top: auto;
 }
 
-/* Estilos para la barra de progreso */
+/* Styles for the progress bar */
 .progressBar {
   width: 60%;
   margin: 20px auto;
@@ -30,7 +30,7 @@
   font-size: 1rem;
 }
 
-/* Estilos para las instrucciones de uso */
+/* Styles for instructions on usage */
 .instructions {
   margin: 50px 0;
   text-align: center;
@@ -41,7 +41,7 @@
   justify-content: center;
 }
 
-/* Estilos específicos para cada mensaje en las instrucciones */
+/* Specific styles for each message in the instructions */
 .instructions .message1 {
   display: block;
 }
@@ -54,53 +54,40 @@
   text-align: center;
 }
 
-/* Estilos para el selector de fecha */
+/* Styles for the date picker */
 .datePicker {
   margin: 20px 0;
+  margin-bottom: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Estilos para las tarjetas de habitaciones */
+/* Styles for room cards */
 .roomCards {
   margin-top: 50px;
 }
 
-/* Estilos para el contenedor de emojis y los emojis */
+/* Styles for the emoji container and the emojis themselves */
 .instructions .emojiContainer {
   display: flex;
-  justify-content: center; /* Cambiado de space-between a center para alinear el emoji en el centro en móviles */
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .instructions .emoji {
-  font-size: 2em;
-  animation: mover 1s infinite;
+  font-size: 3rem;
 }
 
-/* Animación para hacer que el emoji se mueva hacia arriba y hacia abajo */
-@keyframes mover {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
+.room-cards {
+  margin-top: 50px;
 }
 
-/* Reglas de estilo específicas para pantallas pequeñas (hasta 576px) */
-@media screen and (max-width: 576px) {
-  .instructions .message1 {
-    display: none;
-  }
-  .instructions .message2 {
-    display: block;
-  }
-  .progressBar {
-    display: none;
-  }
-}
-
-/* Reglas de estilo específicas para pantallas más grandes */
-@media screen and (min-width: 577px) {
-  .instructions .emoji {
-    font-size: 4em; /* Tamaño del emoji aumentado en pantallas grandes */
+@media (max-width: 767px) {
+  .stepTwoReturnButton {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
   }
 }
