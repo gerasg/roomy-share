@@ -13,7 +13,15 @@ export default function Booking() {
   const [value, setValue] = useState([new Date(), new Date()]);
   const [errorMessage, setErrorMessage] = useState(null);
   const [step, setStep] = useState(1);
-  const [bookingData, setBookingData] = useState({name: '', email: ''});
+  const [bookingData, setBookingData] = useState({
+    name: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    message: '',
+    room: null,
+    acceptTerms: false,
+  });
   const [showModal, setShowModal] = useState(false);
   const [bookingForm, setBookingForm] = useState({open: false, roomNumber: null, roomName: ''});
   const [isTabletOrMobile, setTabletOrMobile] = useState(false);
@@ -135,11 +143,13 @@ export default function Booking() {
           <Container>
             <Step3 
               onSubmitForm={handleSubmitForm} 
-              roomNumber={bookingForm.roomNumber}
+              bookingData={bookingData} 
+              setBookingData={setBookingData} 
               setStep={setStep} 
               step={step} 
               setShowModal={setShowModal} 
-              showModal={showModal} 
+              showModal={showModal}
+              roomNumber={bookingForm.roomNumber} 
             />
           </Container>
         )}
@@ -220,21 +230,12 @@ function Step2({ rooms, onSelectRoom, setStep, step }) {
 }
 
 
-function Step3({ onSubmitForm, roomNumber, setStep, step, setShowModal, showModal }) {
+function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setShowModal, showModal, roomNumber }) {
   const [validated, setValidated] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: '',
-    room: roomNumber,
-    acceptTerms: false,
-  });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setBookingData({
+      ...bookingData,
       [e.target.name]: e.target.value,
     });
   };
@@ -246,11 +247,18 @@ function Step3({ onSubmitForm, roomNumber, setStep, step, setShowModal, showModa
       e.stopPropagation();
     } else {
       e.preventDefault();
-      onSubmitForm(formData);
+      onSubmitForm(bookingData);
     }
 
     setValidated(true);
   };
+
+  useEffect(() => {
+    setBookingData(prevBookingData => ({
+      ...prevBookingData,
+      room: roomNumber,
+    }));
+  }, [roomNumber]);
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -262,7 +270,7 @@ function Step3({ onSubmitForm, roomNumber, setStep, step, setShowModal, showModa
             type="text"
             placeholder="Nombre"
             name="name"
-            value={formData.name}
+            value={bookingData.name}
             onChange={handleChange}
             minLength="2"
           />
@@ -276,7 +284,7 @@ function Step3({ onSubmitForm, roomNumber, setStep, step, setShowModal, showModa
             type="text"
             placeholder="Apellidos"
             name="lastName"
-            value={formData.lastName}
+            value={bookingData.lastName}
             onChange={handleChange}
           />
           <Form.Control.Feedback type="invalid">Por favor, proporciona apellidos válidos.</Form.Control.Feedback>
@@ -291,7 +299,7 @@ function Step3({ onSubmitForm, roomNumber, setStep, step, setShowModal, showModa
             type="email"
             placeholder="Email"
             name="email"
-            value={formData.email}
+            value={bookingData.email}
             onChange={handleChange}
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
           />
@@ -305,7 +313,7 @@ function Step3({ onSubmitForm, roomNumber, setStep, step, setShowModal, showModa
             type="tel"
             placeholder="Teléfono"
             name="phone"
-            value={formData.phone}
+            value={bookingData.phone}
             onChange={handleChange}
           />
           <Form.Control.Feedback type="invalid">Por favor, proporciona un número de teléfono válido.</Form.Control.Feedback>
@@ -318,7 +326,7 @@ function Step3({ onSubmitForm, roomNumber, setStep, step, setShowModal, showModa
           as="textarea"
           placeholder="Mensaje"
           name="message"
-          value={formData.message}
+          value={bookingData.message}
           onChange={handleChange}
           maxLength="500"
         />
@@ -334,7 +342,7 @@ function Step3({ onSubmitForm, roomNumber, setStep, step, setShowModal, showModa
         <Form.Check
           required
           name="acceptTerms"
-          checked={formData.acceptTerms}
+          checked={bookingData.acceptTerms}
           onChange={handleChange}
           feedback="Debes aceptar antes de enviar."
           feedbackType="invalid"
