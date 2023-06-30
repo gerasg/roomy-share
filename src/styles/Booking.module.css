@@ -1,53 +1,106 @@
+/* Este es el contenedor principal que define cómo se mostrarán los elementos */
 .mainContainer {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
-  .reserveRoomTitle {
-    margin-top: 50px;
-    text-align: center;
-  }
-  
-  
-  .content {
-    flex: 1 0 auto; /* Esto permite que el contenido crezca para ocupar todo el espacio disponible, manteniendo el pie de página en la parte inferior */
-  }
-  
-  .footerContainer {
-    flex-shrink: 0; 
-    margin-top: auto; /* Esto empujará tu pie de página hacia abajo si hay espacio disponible */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-  
-  .progressBar {
-    width: 60%;
-    margin: 20px auto;
-    height: 3rem;
-    font-size: 1rem;
-  }
-  
-  .instructions {
-    margin: 50px 0;
-    text-align: center;
-    font-weight: bold;
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-  }
-  
-  .datePicker {
-    margin: 20px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .roomCards {
-    margin-top: 50px;
-  }  
 
-  @media (max-width: 576px) {
-    .progressBar {
-      display: none;
-    }
+/* Estilos para el título de la sección de reserva de habitación */
+.reserveRoomTitle {
+  margin-top: 50px;
+  text-align: center;
+}
+
+/* El contenido principal del sitio, se ajustará para llenar el espacio disponible */
+.content {
+  flex: 1 0 auto;
+}
+
+/* El contenedor del pie de página se encogerá si es necesario y se mantendrá en la parte inferior */
+.footerContainer {
+  flex-shrink: 0; 
+  margin-top: auto;
+}
+
+/* Estilos para la barra de progreso */
+.progressBar {
+  width: 60%;
+  margin: 20px auto;
+  height: 3rem;
+  font-size: 1rem;
+}
+
+/* Estilos para las instrucciones de uso */
+.instructions {
+  margin: 50px 0;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+}
+
+/* Estilos específicos para cada mensaje en las instrucciones */
+.instructions .message1 {
+  display: block;
+}
+
+.instructions .message2 {
+  display: none;
+}
+
+.instructions .message2 p {
+  text-align: center;
+}
+
+/* Estilos para el selector de fecha */
+.datePicker {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos para las tarjetas de habitaciones */
+.roomCards {
+  margin-top: 50px;
+}
+
+/* Estilos para el contenedor de emojis y los emojis */
+.instructions .emojiContainer {
+  display: flex;
+  justify-content: center; /* Cambiado de space-between a center para alinear el emoji en el centro en móviles */
+}
+
+.instructions .emoji {
+  font-size: 2em;
+  animation: mover 1s infinite;
+}
+
+/* Animación para hacer que el emoji se mueva hacia arriba y hacia abajo */
+@keyframes mover {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Reglas de estilo específicas para pantallas pequeñas (hasta 576px) */
+@media screen and (max-width: 576px) {
+  .instructions .message1 {
+    display: none;
   }
+  .instructions .message2 {
+    display: block;
+  }
+  .progressBar {
+    display: none;
+  }
+}
+
+/* Reglas de estilo específicas para pantallas más grandes */
+@media screen and (min-width: 577px) {
+  .instructions .emoji {
+    font-size: 4em; /* Tamaño del emoji aumentado en pantallas grandes */
+  }
+}

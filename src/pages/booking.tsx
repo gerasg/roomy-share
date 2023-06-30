@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useMediaQuery } from 'react-responsive';
 import { Card, Button, Badge, Row, Col, Container, Form, ProgressBar, Modal } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -15,6 +16,7 @@ export default function Booking() {
   const [bookingData, setBookingData] = useState({name: '', email: ''});
   const [showModal, setShowModal] = useState(false);
   const [bookingForm, setBookingForm] = useState({open: false, roomNumber: null, roomName: ''});
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 960px)' }); 
 
   useEffect(() => {
     fetchRooms(value);
@@ -94,7 +96,12 @@ export default function Booking() {
       <Header />
       <Container className={styles.content}>
         <h1 className={styles.reserveRoomTitle}>Reserva una habitación</h1>
-        <ProgressBar className={styles.progressBar} animated now={(step/5)*100} label={`Paso ${step} de 5`} />
+        <ProgressBar 
+          className={styles.progressBar} 
+          animated 
+          now={(step/5)*100} 
+          label={isTabletOrMobile ? `${step}/5` : `Paso ${step} de 5`} 
+        />
         {step === 1 && (
           <div className={styles['date-picker']}>
             <Step1 value={value} onDateChange={handleDateChange} />
@@ -141,7 +148,15 @@ function Step1({ value, onDateChange }) {
   return (
     <>
       <div className={styles.instructions}>
-        <p>👇 Por favor, elige las fechas en las que te gustaría entrar a vivir 👇</p>
+        <div className={styles.message1}>
+          <p>👇 Por favor, elige las fechas en las que te gustaría entrar a vivir 👇</p>
+        </div>
+        <div className={styles.message2}>
+          <p>Por favor, elige las fechas en las que te gustaría entrar a vivir</p>
+          <div className={styles.emojiContainer}>
+            <p className={styles.emoji}>👇</p>
+          </div>
+        </div>
       </div>
       <div className={styles.datePicker}>
         <Calendar onChange={onDateChange} value={value} selectRange={true} locale="en-US" />
