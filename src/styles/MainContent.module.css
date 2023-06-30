@@ -18,7 +18,8 @@
   
   .carousel {
       padding: 0;
-      margin-bottom: 0;
+      margin: 0;
+      width: 100vw;
   }  
 
 .carouselImage {
@@ -149,11 +150,24 @@
     }
   }
 
-@media (max-width: 576px) {
-    .carouselImage {
-        height: 50vh;
+  @media (max-width: 768px) {
+    .customContainer {
+      padding: 0;
+      margin: 0;
     }
-}
+    
+    .carouselImage {
+      max-height: 50vh;
+    }
+  
+    .cardContainer {
+      margin: 10px;
+    }
+  
+    .contactBox {
+      margin: 10px;
+    }
+  }  
 
 
 

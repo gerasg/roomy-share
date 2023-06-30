@@ -16,8 +16,26 @@ export default function Booking() {
   const [bookingData, setBookingData] = useState({name: '', email: ''});
   const [showModal, setShowModal] = useState(false);
   const [bookingForm, setBookingForm] = useState({open: false, roomNumber: null, roomName: ''});
-  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 960px)' }); 
+  const [isTabletOrMobile, setTabletOrMobile] = useState(false);
 
+  useEffect(() => {
+    const isTabletOrMobileQuery = window.matchMedia('(max-width: 768px)');
+    setTabletOrMobile(isTabletOrMobileQuery.matches);
+  
+    const listener = (e) => {
+      setTabletOrMobile(e.matches);
+    };
+  
+    // Change addListener to addEventListener
+    isTabletOrMobileQuery.addEventListener('change', listener);
+  
+    // Cleanup after unmount
+    return () => {
+      // Change removeListener to removeEventListener
+      isTabletOrMobileQuery.removeEventListener('change', listener);
+    };
+  }, []);
+  
   useEffect(() => {
     fetchRooms(value);
   }, []);
