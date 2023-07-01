@@ -27,6 +27,14 @@ export default function Booking() {
   const [isTabletOrMobile, setTabletOrMobile] = useState(false);
 
   useEffect(() => {
+    if (step === 5) {
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 5000);
+    }
+  }, [step]);
+  
+  useEffect(() => {
     const isTabletOrMobileQuery = window.matchMedia('(max-width: 768px)');
     setTabletOrMobile(isTabletOrMobileQuery.matches);
   
@@ -114,9 +122,26 @@ export default function Booking() {
   };  
 
   const handleConfirm = () => {
-    bookRoom(bookingForm.roomNumber);
-    setStep(5);
+    const formData = new FormData();
+    formData.append('name', bookingData.name);
+    formData.append('lastName', bookingData.lastName);
+    formData.append('email', bookingData.email);
+    formData.append('phone', bookingData.phone);
+    formData.append('message', bookingData.message);
+    formData.append('room', bookingData.room);
+  
+    axios.post('https://getform.io/f/89676701-e0f8-4332-a258-87ffbce4523b', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+    .then((response) => {
+      console.log(response);
+      setStep(5);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   };
+  
 
   return (
     <div className={styles.mainContainer}>
