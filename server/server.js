@@ -5,9 +5,14 @@ const { Client } = require('pg');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const app = express();
+const cron = require('node-cron');
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // aquí va la url de tu frontend
+    methods: ['GET', 'POST'], // métodos permitidos
+    allowedHeaders: ['Content-Type'] // cabeceras permitidas
+}));
 
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -130,6 +135,57 @@ app.post('/booking', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
+});
+
+const assignTasks = async () => {
+    const client = new Client({
+        connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+    });
+
+    try {
+        await client.connect();
+
+        const tasks = ['Limpiar baño', 'Limpiar cocina y comedor', 'Tirar la basura', 'Aspirar y fregar el suelo'];
+        const days = [1, 3, 5, 0].map(plusDays => {
+            const d = new Date();
+            d.setDate(d.getDate() + ((7 - d.getDay() + plusDays) % 7));
+            return d;
+        });
+
+        // Obtiene todos los inquilinos con contrato activo
+        const result = await client.query('SELECT * FROM tenants WHERE contract_end_date >= CURRENT_DATE');
+        let tenants = result.rows;
+
+        // Mezcla los inquilinos
+        tenants = tenants.sort(() => Math.random() - 0.5);
+
+        // Recorre cada tarea
+        for (let i = 0; i < tasks.length; i++) {
+            const task = tasks[i];
+            const day = days[i];
+            const tenant = tenants[i];
+
+            // Asigna la tarea al inquilino
+            await client.query('INSERT INTO tasks (task, tenant_id, day) VALUES ($1, $2, $3)', [task, tenant.id, day]);
+        }
+
+        console.log('Tareas asignadas con éxito');
+
+    } catch (error) {
+        console.error('Database error:', error);
+    } finally {
+        await client.end();
+    }
+};
+
+app.post('/assign_tasks', async (req, res) => {
+    await assignTasks();
+    res.json({ message: 'Tareas asignadas con éxito' });
+});
+
+cron.schedule('0 0 * * 1', async function() {
+    await assignTasks();
+    console.log("Tareas asignadas");
 });
 
 app.listen(3001, () => {
