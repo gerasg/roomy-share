@@ -2,6 +2,35 @@ import { Carousel, Row, Col, Button, Image, Form, Card } from 'react-bootstrap'
 import { FaCity, FaTemperatureLow, FaUmbrellaBeach } from 'react-icons/fa'
 import styles from '../styles/MainContent.module.css'
 import Link from 'next/link'
+import axios from 'axios';
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  
+  const name = event.target.elements['contactForm.Name'].value;
+  const lastName = event.target.elements['contactForm.LastName'].value;
+  const email = event.target.elements['contactForm.Email'].value;
+  const phone = event.target.elements['contactForm.Phone'].value;
+  const message = event.target.elements['contactForm.Message'].value;
+  
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('lastName', lastName);
+  formData.append('email', email);
+  formData.append('phone', phone);
+  formData.append('message', message);
+
+  axios.post('https://getform.io/f/89676701-e0f8-4332-a258-87ffbce4523b', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  })
+  .then((response) => {
+    console.log(response);
+    // Aquí puedes añadir cualquier lógica posterior al envío exitoso
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+};
 
 export default function MainContent() {
   return (
@@ -77,22 +106,34 @@ export default function MainContent() {
         <hr style={{marginBottom: 0}} />
 
         <Row className={`${styles.contactSection} justify-content-center align-items-center`}>
-            <Col xs={12} sm={8} md={6}>
-                <div className={`${styles.contactBox}`}>
-                <h3 className="text-center mb-3">Contáctanos</h3>
-                <Form>
-                    <Form.Group controlId="contactForm.Email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Tu correo electrónico" />
-                    </Form.Group>
-                    <Form.Group controlId="contactForm.Message">
-                    <Form.Label>Mensaje</Form.Label>
-                    <Form.Control as="textarea" placeholder="Tu mensaje" />
-                    </Form.Group>
-                    <Button variant="primary" type="submit" className="w-100">Enviar</Button>
-                </Form>
-                </div>
-            </Col>
+          <Col xs={12} sm={8} md={6}>
+              <div className={`${styles.contactBox}`}>
+              <h3 className="text-center mb-3">Contáctanos</h3>
+              <Form onSubmit={handleSubmit}>
+                  <Form.Group controlId="contactForm.Name">
+                  <Form.Label>Nombre</Form.Label>
+                  <Form.Control type="text" placeholder="Tu nombre" required/>
+                  </Form.Group>
+                  <Form.Group controlId="contactForm.LastName">
+                  <Form.Label>Apellidos</Form.Label>
+                  <Form.Control type="text" placeholder="Tus apellidos" required/>
+                  </Form.Group>
+                  <Form.Group controlId="contactForm.Email">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control type="email" placeholder="Tu correo electrónico" required/>
+                  </Form.Group>
+                  <Form.Group controlId="contactForm.Phone">
+                  <Form.Label>Teléfono</Form.Label>
+                  <Form.Control type="tel" placeholder="Tu número de teléfono" required/>
+                  </Form.Group>
+                  <Form.Group controlId="contactForm.Message">
+                  <Form.Label>Mensaje</Form.Label>
+                  <Form.Control as="textarea" placeholder="Tu mensaje" required/>
+                  </Form.Group>
+                  <Button variant="primary" type="submit" className="w-100">Enviar</Button>
+              </Form>
+              </div>
+          </Col>
         </Row>
       </div>
     </main>

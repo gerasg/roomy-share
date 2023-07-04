@@ -1,5 +1,27 @@
+
+
 @media (max-width: 768px) {
-    .navbar {
-      padding: 0;
-    }
+  .uppercaseLinks {
+    text-align: center;
+  }
+  .logo{
+    font-weight: 600;
+  }
+}
+
+  
+  .logo {
+    text-transform: uppercase;
+    letter-spacing: 0.4em; /* Ajusta el valor según tu preferencia */
+    margin-right: 50px;
+  }
+  
+  .uppercaseLinks {
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.2em; /* Ajusta el espaciado entre letras según tu preferencia */
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }  
