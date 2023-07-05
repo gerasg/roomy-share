@@ -1,8 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import type { AppProps } from 'next/app'
+import Footer from '../components/Footer'
+import styles from '../styles/App.module.css'  
+import '../styles/Faq.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <div className={styles.site}>
+      <div className={styles.siteContent}>
+        <Component {...pageProps} />
+      </div>
+      <Footer />
+    </div>
+  )
 }
 
 export default MyApp

@@ -8,7 +8,6 @@ export default function Home() {
     <div className={styles.container}>
       <Header />
       <MainContent />
-      <Footer />
     </div>
   )
 }

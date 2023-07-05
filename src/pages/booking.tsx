@@ -4,7 +4,6 @@ import { useMediaQuery } from 'react-responsive';
 import { Card, Button, Badge, Row, Col, Container, Form, ProgressBar, Modal, FloatingLabel } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import Footer from '../components/Footer'
 import Header from '../components/Header'
 import styles from '../styles/Booking.module.css'
 
@@ -192,7 +191,6 @@ export default function Booking() {
           <Step5 />
         )}
       </Container>
-      <Footer />
     </div>
   );
 }
