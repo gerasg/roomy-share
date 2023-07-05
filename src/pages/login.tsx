@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import jwtDecode from 'jwt-decode';
 import styles from '../styles/Login.module.css'
 
 export default function Login() {
@@ -9,21 +10,26 @@ export default function Login() {
     const router = useRouter()
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        const response = await fetch('http://localhost:3001/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        })
-
-        const data = await response.json();
-        if (response.ok) {
-          localStorage.setItem('token', data.token);
+      event.preventDefault()
+      const response = await fetch('http://localhost:3001/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+      })
+  
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        const decodedToken = jwtDecode(data.token);
+        if (decodedToken.role === 'owner') {
           router.push('/dashboard')
-        } else {
-          setError(data.message)
+        } else if (decodedToken.role === 'tenant') {
+          router.push('/user_dashboard')
         }
-    }
+      } else {
+        setError(data.message)
+      }
+  }
 
   return (
     <div className={`container py-5 ${styles['login-container']}`}>

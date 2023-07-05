@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors({
     origin: 'http://localhost:3000', // aquí va la url de tu frontend
     methods: ['GET', 'POST'], // métodos permitidos
-    allowedHeaders: ['Content-Type'] // cabeceras permitidas
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.post('/login', async (req, res) => {
@@ -24,8 +24,17 @@ app.post('/login', async (req, res) => {
     try {
     await client.connect();
 
-    const result = await client.query('SELECT * FROM owners WHERE email = $1', [email]);
-    const user = result.rows[0];
+    // Primero busco en la tabla de owners
+    let result = await client.query('SELECT * FROM owners WHERE email = $1', [email]);
+    let user = result.rows[0];
+    let role = 'owner';
+
+    // Si no encuentro un owner, busco en la tabla de tenants
+    if (!user) {
+        result = await client.query('SELECT * FROM tenants WHERE email = $1', [email]);
+        user = result.rows[0];
+        role = 'tenant';
+    }
 
     if (!user) {
         return res.status(400).json({ message: 'Invalid email or password' });
@@ -37,7 +46,7 @@ app.post('/login', async (req, res) => {
         return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ userId: user.id }, 'your_secret_key');
+    const token = jwt.sign({ userId: user.id, role }, 'your_secret_key');
 
     res.json({ message: 'Logged in successfully', token });
 
@@ -123,6 +132,50 @@ const assignTasks = async () => {
 app.post('/assign_tasks', async (req, res) => {
     await assignTasks();
     res.json({ message: 'Tareas asignadas con éxito' });
+});
+
+app.get('/tenant_tasks', async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, 'your_secret_key', async (err, user) => {
+        if (err) return res.sendStatus(403);
+
+        const client = new Client({
+            connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+        });
+
+        try {
+            await client.connect();
+
+            // calcula la fecha del próximo domingo
+            const nextSunday = new Date();
+            nextSunday.setDate(nextSunday.getDate() + ((7 - nextSunday.getDay() + 0) % 7));
+            
+            const result = await client.query(`
+            SELECT * FROM tasks
+            WHERE tenant_id = $1 AND day >= (
+                SELECT contract_start_date
+                FROM tenants
+                WHERE id = $1
+            ) AND day <= (
+                SELECT MAX(day) 
+                FROM tasks
+            )
+            ORDER BY day DESC
+            `, [user.userId]);
+
+            const tasks = result.rows;
+            res.json(tasks);
+        } catch (error) {
+            console.error('Database error:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        } finally {
+            await client.end();
+        }
+    });
 });
 
 cron.schedule('0 0 * * 1', async function() {
