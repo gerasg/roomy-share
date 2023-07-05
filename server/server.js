@@ -51,9 +51,6 @@ app.get('/available_rooms', async (req, res) => {
     const startDate = req.query.startDate;
     const endDate = req.query.endDate;
 
-    console.log(startDate);
-    console.log(endDate);
-
     const client = new Client({
         connectionString: 'postgresql://gera@localhost:5432/roomyshare'
     });
@@ -72,7 +69,6 @@ app.get('/available_rooms', async (req, res) => {
         `, [startDate, endDate]);
 
         const availableRooms = result.rows;
-        console.log(availableRooms);
 
         res.json(availableRooms);
     } catch (error) {
@@ -80,60 +76,6 @@ app.get('/available_rooms', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     } finally {
         await client.end();
-    }
-});
-
-
-  
-
-app.post('/booking', async (req, res) => {
-    const { startDate, endDate, roomNumber } = req.body;
-    const client = new Client({
-        connectionString: 'postgresql://gera@localhost:5432/roomyshare'
-    });
-
-    try {
-        await client.connect();
-
-        const result = await client.query('SELECT * FROM rooms WHERE room_number = $1', [roomNumber]);
-        const room = result.rows[0];
-
-        if (!room || room.status !== 'vacant') {
-            return res.status(400).json({ message: 'Room is not available' });
-        }
-
-        await client.query('INSERT INTO tenants (contract_start_date, contract_end_date, room_id) VALUES ($1, $2, $3)', [startDate, endDate, room.id]);
-        await client.query('UPDATE rooms SET status = $1 WHERE id = $2', ['occupied', room.id]);
-        
-        await client.end();
-
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'your-email@gmail.com',
-                pass: 'your-password'
-            }
-        });
-
-        const mailOptions = {
-            from: 'your-email@gmail.com',
-            to: 'tenant-email@gmail.com',
-            subject: 'Booking Confirmation',
-            text: 'Your room has been booked!'
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
-
-        res.json({ message: 'Room booked successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
     }
 });
 

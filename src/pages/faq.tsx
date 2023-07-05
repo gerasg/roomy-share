@@ -5,8 +5,8 @@ export default function FAQ() {
   return (
     <div>
       <Header />
-      <div className="container mt-4">
-        <h1>Página de FAQ</h1>
+      <div className="container mt-4 mb-4">
+        <h1>FAQ</h1>
           <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header>¿Cómo puedo reservar una habitación?</Accordion.Header>

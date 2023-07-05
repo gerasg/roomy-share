@@ -297,7 +297,7 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
         <Form.Control plaintext readOnly className="col-md-10 col-sm-3" value={bookingData.room} />
         
       </Form.Group>
-        <Form.Group as={Col} md="6" controlId="validationCustom01">
+        <Form.Group as={Col} md="6" controlId="validationCustom01" className="mb-3">
         <FloatingLabel
           controlId="floatingInput"
           label="Nombre"
@@ -353,21 +353,21 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
           </FloatingLabel>
           <Form.Control.Feedback type="invalid">Por favor, proporciona un email válido.</Form.Control.Feedback>
         </Form.Group>
-
         <Form.Group as={Col} md="6" controlId="validationCustom04">
           <FloatingLabel
             controlId="floatingInput"
             label="Teléfono"
             className="mb-3"
           >
-          <Form.Control
-            required
-            type="tel"
-            placeholder="Teléfono"
-            name="phone"
-            value={bookingData.phone}
-            onChange={handleChange}
-          />
+            <Form.Control
+              required
+              type="tel"
+              placeholder="Teléfono"
+              name="phone"
+              value={bookingData.phone}
+              onChange={handleChange}
+              pattern="[0-9]{9,}"
+            />
           </FloatingLabel>
           <Form.Control.Feedback type="invalid">Por favor, proporciona un número de teléfono válido.</Form.Control.Feedback>
         </Form.Group>
@@ -494,7 +494,11 @@ function Step4({ bookingData, onConfirm, setStep, step }) {
       <p><strong>Habitación:</strong> {bookingData.room}</p>
 
       <div className="d-flex mt-4">
-        <Button className="me-3" onClick={() => setStep(step - 1)}>Atrás</Button>
+        <Button className="me-3 w-auto" onClick={() => setStep(step - 1)}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-return-left" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
+          </svg> Volver 
+        </Button>
         <Button variant="primary" onClick={onConfirm}>Confirmar</Button>
       </div>
     </>
