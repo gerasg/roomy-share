@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+.navbar {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+}
+
+.offcanvas {
+  height: 100vh;
+  padding-top: 20px;
+}
+
+.offcanvas .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.offcanvas-body {
+  overflow-y: auto;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+#sidebar-wrapper {
+  min-height: 100vh;
+  margin-left: 0;
+  -webkit-transition: margin .25s ease-out;
+  -moz-transition: margin .25s ease-out;
+  -o-transition: margin .25s ease-out;
+  transition: margin .25s ease-out;
+  background-color: #fdfdfd; /* Color de fondo del sidebar */
+  border-right: 1px solid #9fa6ac; /* Borde del sidebar */
+  width: 250px; /* Ajusta esto según el ancho que prefieras para el sidebar */
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+  width: 15rem;
+}
+
+#page-content-wrapper {
+  width: calc(100% - 250px); /* Asegúrate de que este valor coincida con el ancho de tu sidebar */
+  float: right; /* Esto hará que el contenido principal se posicione a la derecha del sidebar */
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: 0;
+}
