@@ -149,11 +149,6 @@ app.get('/tenant_tasks', async (req, res) => {
 
         try {
             await client.connect();
-
-            // calcula la fecha del próximo domingo
-            const nextSunday = new Date();
-            nextSunday.setDate(nextSunday.getDate() + ((7 - nextSunday.getDay() + 0) % 7));
-            
             const result = await client.query(`
             SELECT * FROM tasks
             WHERE tenant_id = $1 AND day >= (
