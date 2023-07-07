@@ -163,6 +163,7 @@ app.get('/tenant_tasks', async (req, res) => {
             `, [user.userId]);
 
             const tasks = result.rows;
+            console.log(tasks);
             res.json(tasks);
         } catch (error) {
             console.error('Database error:', error);
