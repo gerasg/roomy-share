@@ -3,6 +3,11 @@ import { useRouter } from 'next/router'
 import jwtDecode from 'jwt-decode';
 import styles from '../styles/Login.module.css'
 
+interface DecodedToken {
+  role: string;
+  [key: string]: any;
+}
+
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -20,7 +25,7 @@ export default function Login() {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        const decodedToken = jwtDecode(data.token);
+        const decodedToken = jwtDecode(data.token) as DecodedToken;
         if (decodedToken.role === 'owner') {
           router.push('/dashboard')
         } else if (decodedToken.role === 'tenant') {
@@ -29,7 +34,7 @@ export default function Login() {
       } else {
         setError(data.message)
       }
-  }
+    }
 
   return (
     <div className={`container py-5 ${styles['login-container']}`}>
