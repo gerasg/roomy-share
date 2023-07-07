@@ -150,7 +150,8 @@ app.get('/tenant_tasks', async (req, res) => {
         try {
             await client.connect();
             const result = await client.query(`
-            SELECT * FROM tasks
+            SELECT tasks.*, tenants.name, tenants.lastname FROM tasks
+            INNER JOIN tenants ON tasks.tenant_id = tenants.id
             WHERE tenant_id = $1 AND day >= (
                 SELECT contract_start_date
                 FROM tenants

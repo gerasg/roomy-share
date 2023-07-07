@@ -2,13 +2,12 @@
 import { useRouter } from 'next/router'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Navbar, Nav, Container, Button, Row, Col } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, Row, Col, Table } from 'react-bootstrap';
 import { HouseFill, FileEarmark, Cart, People, GraphUp, Puzzle } from 'react-bootstrap-icons';
-import { Chrono }  from 'react-chrono'; // import the Chrono component
 
 export default function Dashboard() {
   const router = useRouter()
-  const [timelineData, setTimelineData] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     // Verificar que estamos en el cliente antes de hacer la llamada al servidor
@@ -16,10 +15,6 @@ export default function Dashboard() {
       fetchTasks();
     }
   }, []);
-
-  useEffect(() => {
-    console.log('timelineData has been updated:', timelineData);
-  }, [timelineData]); // This effect runs whenever timelineData changes  
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -41,23 +36,8 @@ export default function Dashboard() {
     });
 
     if (response.ok) {
-      const tasks = await response.json();
-    
-      // Prepare the data for the Chrono component directly after fetching
-      const data = tasks.map(task => ({
-        title: task.task,
-        cardSubtitle: task.completed ? 'Completed' : 'Pending',
-        cardDetailedText: `Task Date: ${new Date(task.day).toLocaleDateString()}`,
-      }));
-    
-      console.log('Formatted data:', data); // Confirm the data looks as expected
-    
-      // Check the length of the data array before setting it
-      if (data.length > 0) {
-        setTimelineData(data);
-      } else {
-        console.warn('Data array is empty');
-      }
+      const fetchedTasks = await response.json();
+      setTasks(fetchedTasks);
     } else {
       console.error('Error fetching tasks:', response.statusText);
     }
@@ -90,11 +70,58 @@ export default function Dashboard() {
             <h1 className="h3 mb-3 fw-normal text-center">Bienvenido a tu panel de control</h1>
             <h1 className="h3 mb-3 fw-normal text-center">TENANT</h1>
             <div className="tasks">
-              {timelineData.length > 0 && <Chrono items={timelineData} mode="VERTICAL" />}
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Task</th>
+                    <th>Responsable</th>
+                    <th>Status</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tasks.map((task, i) => (
+                    <tr key={i}>
+                      <td>{new Date(task.day).toLocaleDateString()}</td>
+                      <td>{task.task}</td>
+                      <td>{task.name} {task.lastname}</td>
+                      <td>{task.completed ? 'Completado' : 'Pendiente'}</td>
+                      <td>
+                        {!task.completed && (
+                          <Button onClick={() => handleMarkAsComplete(task)}>Marcar como completo</Button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
             </div>
           </Col>
         </Row>
       </Container>
     </div>
   )
+
+  async function handleMarkAsComplete(task) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    }
+
+    const response = await fetch(`http://localhost:3001/tenant_tasks/${task.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ completed: true })
+    });
+
+    if (response.ok) {
+      fetchTasks();
+    } else {
+      console.error('Error marking task as completed:', response.statusText);
+    }
+  }
 }
