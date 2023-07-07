@@ -10,7 +10,7 @@ const cron = require('node-cron');
 app.use(express.json());
 app.use(cors({
     origin: 'http://localhost:3000', // aquí va la url de tu frontend
-    methods: ['GET', 'POST'], // métodos permitidos
+    methods: ['GET', 'POST', 'PUT'], // métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
@@ -97,11 +97,18 @@ const assignTasks = async () => {
         await client.connect();
 
         const tasks = ['Limpiar baño', 'Limpiar cocina y comedor', 'Tirar la basura', 'Aspirar y fregar el suelo'];
-        const days = [1, 3, 5, 0].map(plusDays => {
-            const d = new Date();
-            d.setDate(d.getDate() + ((7 - d.getDay() + plusDays) % 7));
-            return d;
-        });
+        const daysOfWeek = [1, 3, 5, 0]; // Días de la semana en los que se asignan las tareas (Lunes, Miércoles, Viernes, Domingo)
+
+        const nextWeekMonday = new Date();
+        nextWeekMonday.setDate(nextWeekMonday.getDate() + ((7 - nextWeekMonday.getDay() + daysOfWeek[0]) % 7));
+
+        const resultCheck = await client.query('SELECT * FROM tasks WHERE day >= $1', [nextWeekMonday]);
+
+        // Si ya se asignaron tareas para la próxima semana, sale de la función
+        if (resultCheck.rows.length > 0) {
+            console.log('Las tareas ya han sido asignadas para la próxima semana');
+            return;
+        }
 
         // Obtiene todos los inquilinos con contrato activo
         const result = await client.query('SELECT * FROM tenants WHERE contract_end_date >= CURRENT_DATE');
@@ -113,8 +120,9 @@ const assignTasks = async () => {
         // Recorre cada tarea
         for (let i = 0; i < tasks.length; i++) {
             const task = tasks[i];
-            const day = days[i];
-            const tenant = tenants[i];
+            const day = new Date(nextWeekMonday);
+            day.setDate(day.getDate() + 2 * i);
+            const tenant = tenants[i % tenants.length];
 
             // Asigna la tarea al inquilino
             await client.query('INSERT INTO tasks (task, tenant_id, day) VALUES ($1, $2, $3)', [task, tenant.id, day]);
@@ -166,6 +174,61 @@ app.get('/tenant_tasks', async (req, res) => {
             const tasks = result.rows;
             console.log(tasks);
             res.json(tasks);
+        } catch (error) {
+            console.error('Database error:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        } finally {
+            await client.end();
+        }
+    });
+});
+
+app.put('/tenant_tasks/:taskId', async (req, res) => {
+    const taskId = req.params.taskId;
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, 'your_secret_key', async (err, user) => {
+        if (err) return res.sendStatus(403);
+
+        const client = new Client({
+            connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+        });
+
+        try {
+            await client.connect();
+            
+            const result = await client.query(`
+            SELECT * FROM tasks
+            WHERE id = $1
+            `, [taskId]);
+
+            const task = result.rows[0];
+
+            if (!task) {
+                return res.status(404).json({ message: 'Task not found' });
+            }
+
+            if (task.tenant_id !== user.userId) {
+                return res.status(403).json({ message: 'Forbidden: You can only update your own tasks' });
+            }
+
+            const currentDate = new Date();
+            const taskDate = new Date(task.day);
+
+            if (taskDate.getTime() > currentDate.getTime()) {
+                return res.status(400).json({ message: 'Cannot complete a future task' });
+            }
+
+            await client.query(`
+            UPDATE tasks 
+            SET completed = $1 
+            WHERE id = $2
+            `, [req.body.completed, taskId]);
+
+            res.json({ message: 'Task updated successfully' });
         } catch (error) {
             console.error('Database error:', error);
             res.status(500).json({ message: 'Internal server error' });

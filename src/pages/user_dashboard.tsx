@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Navbar, Nav, Container, Button, Row, Col, Table } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, Row, Col, Table, Badge } from 'react-bootstrap';
 import { HouseFill, FileEarmark, Cart, People, GraphUp, Puzzle } from 'react-bootstrap-icons';
 
 export default function Dashboard() {
@@ -70,14 +70,14 @@ export default function Dashboard() {
             <h1 className="h3 mb-3 fw-normal text-center">Bienvenido a tu panel de control</h1>
             <h1 className="h3 mb-3 fw-normal text-center">TENANT</h1>
             <div className="tasks">
-              <Table striped bordered hover>
+              <Table striped bordered hover responsive>
                 <thead>
                   <tr>
                     <th>Fecha</th>
                     <th>Task</th>
                     <th>Responsable</th>
                     <th>Status</th>
-                    <th>Acción</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -86,7 +86,7 @@ export default function Dashboard() {
                       <td>{new Date(task.day).toLocaleDateString()}</td>
                       <td>{task.task}</td>
                       <td>{task.name} {task.lastname}</td>
-                      <td>{task.completed ? 'Completado' : 'Pendiente'}</td>
+                      <td>{task.completed ? <Badge bg="success">Completado</Badge> : <Badge bg="danger">Pendiente</Badge>}</td>
                       <td>
                         {!task.completed && (
                           <Button onClick={() => handleMarkAsComplete(task)}>Marcar como completo</Button>
