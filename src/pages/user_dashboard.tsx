@@ -81,19 +81,25 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {tasks.map((task, i) => (
-                    <tr key={i}>
-                      <td>{new Date(task.day).toLocaleDateString()}</td>
-                      <td>{task.task}</td>
-                      <td>{task.name} {task.lastname}</td>
-                      <td>{task.completed ? <Badge bg="success">Completado</Badge> : <Badge bg="danger">Pendiente</Badge>}</td>
-                      <td>
-                        {!task.completed && (
-                          <Button onClick={() => handleMarkAsComplete(task)}>Marcar como completo</Button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                  {tasks.map((task, i) => {
+                    const taskDate = new Date(task.day);
+                    const now = new Date();
+                    const isTaskDateTodayOrInFuture = taskDate >= now;
+
+                    return (
+                      <tr key={i}>
+                        <td>{taskDate.toLocaleDateString()}</td>
+                        <td>{task.task}</td>
+                        <td>{task.name} {task.lastname}</td>
+                        <td>{task.completed ? <Badge bg="success">Completado</Badge> : <Badge bg="danger">Pendiente</Badge>}</td>
+                        <td>
+                          {!task.completed && isTaskDateTodayOrInFuture && (
+                            <Button onClick={() => handleMarkAsComplete(task)}>Marcar como completo</Button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </Table>
             </div>
