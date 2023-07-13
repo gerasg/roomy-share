@@ -125,10 +125,12 @@ const StyledCheckbox = styled.input`
 export default function Dashboard() {
   const router = useRouter();
   const [tasks, setTasks] = useState([]);
+  const [payments, setPayments] = useState([]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       fetchTasks();
+      fetchPayments();
     }
   }, []);
 
@@ -181,6 +183,28 @@ export default function Dashboard() {
     }
   }
 
+  const fetchPayments = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    }
+  
+    const response = await fetch('http://localhost:3001/payments', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    });
+  
+    if (response.ok) {
+      const fetchedPayments = await response.json();
+      setPayments(fetchedPayments);
+    } else {
+      console.error('Error fetching payments:', response.statusText);
+    }
+  };  
+
   return (
     <DashboardWrapper>
       <SideNav>
@@ -229,6 +253,30 @@ export default function Dashboard() {
           </Table>
         </TableContainer>
 
+        </Card>
+        <Card>
+          <TableContainer>
+            <Table>
+              <thead>
+                <TableRow>
+                  <TableData>Fecha de pago</TableData>
+                  <TableData>Cantidad pagada</TableData>
+                </TableRow>
+              </thead>
+              <tbody>
+                {payments.map((payment, i) => (
+                  <TableRow key={i}>
+                    <TableData>{new Date(payment.payment_date).toLocaleDateString()}</TableData>
+                    <TableData>{payment.amount_paid}</TableData>
+                    {payment.status === 'paid' 
+                      ? <Badge bg="success">Pagado</Badge> 
+                      : <Badge bg="danger">Pendiente</Badge>
+                    }
+                  </TableRow>
+                ))}
+              </tbody>
+            </Table>
+          </TableContainer>
         </Card>
       </MainContent>
     </DashboardWrapper>

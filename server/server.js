@@ -172,8 +172,40 @@ app.get('/tenant_tasks', async (req, res) => {
             `, [user.userId]);
 
             const tasks = result.rows;
-            console.log(tasks);
             res.json(tasks);
+        } catch (error) {
+            console.error('Database error:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        } finally {
+            await client.end();
+        }
+    });
+});
+
+app.get('/payments', async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, 'your_secret_key', async (err, user) => {
+        if (err) return res.sendStatus(403);
+
+        const client = new Client({
+            connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+        });
+
+        try {
+            await client.connect();
+            const result = await client.query(`
+            SELECT * FROM payments
+            WHERE tenant_id = $1
+            ORDER BY payment_date ASC
+            `, [user.userId]);
+
+            const payments = result.rows;
+            console.log(payments);
+            res.json(payments);
         } catch (error) {
             console.error('Database error:', error);
             res.status(500).json({ message: 'Internal server error' });
