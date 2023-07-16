@@ -18,7 +18,9 @@ const DashboardWrapper = styled.div`
 `;
 
 const TableContainer = styled.div`
+  max-height: 400px; // Para 10 filas
   overflow-x: auto;
+  overflow-y: auto; // Para permitir el desplazamiento vertical
 `;
 
 const SideNav = styled.div`
