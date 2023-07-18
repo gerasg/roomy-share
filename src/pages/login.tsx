@@ -26,6 +26,8 @@ export default function Login() {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         const decodedToken = jwtDecode(data.token) as DecodedToken;
+        localStorage.setItem('name', decodedToken.name);
+        localStorage.setItem('lastname', decodedToken.lastname);
         if (decodedToken.role === 'owner') {
           router.push('/dashboard')
         } else if (decodedToken.role === 'tenant') {

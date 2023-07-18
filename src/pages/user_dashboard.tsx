@@ -148,9 +148,18 @@ export default function Dashboard() {
   const router = useRouter();
   const [tasks, setTasks] = useState([]);
   const [payments, setPayments] = useState([]);
+  const [userName, setUserName] = useState('');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      const name = localStorage.getItem('name');
+      const lastname = localStorage.getItem('lastname');
+      
+      const user = { name, lastname };
+      
+      if (user) {
+        setUserName(user.name);
+      }
       fetchTasks();
       fetchPayments();
     }
@@ -305,7 +314,7 @@ export default function Dashboard() {
       </SideNav>
       <MainContent>
         <Card>
-          <h1>Bienvenido a tu panel de control</h1>
+          <h1>Bienvenido {userName}</h1>
         </Card>
         <Card>
         <TableContainer>

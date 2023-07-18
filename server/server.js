@@ -46,9 +46,10 @@ app.post('/login', async (req, res) => {
         return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ userId: user.id, role }, 'your_secret_key');
+    const token = jwt.sign({ userId: user.id, role, name: user.name, lastname: user.lastname }, 'your_secret_key');
 
-    res.json({ message: 'Logged in successfully', token });
+    res.json({ message: 'Logged in successfully', token, user: { name: user.name, lastname: user.lastname, role } });
+
 
     } catch (error) {
         console.error('Database error:', error);
@@ -185,9 +186,6 @@ app.get('/tenant_tasks', async (req, res) => {
 app.get('/admin_tasks', async (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
-
-    console.log('Token:', token);  // Debug log
-
     if (!token) return res.sendStatus(401);
 
     jwt.verify(token, 'your_secret_key', async (err, user) => {
@@ -239,7 +237,6 @@ app.get('/payments', async (req, res) => {
             `, [user.userId]);
 
             const payments = result.rows;
-            console.log(payments);
             res.json(payments);
         } catch (error) {
             console.error('Database error:', error);
