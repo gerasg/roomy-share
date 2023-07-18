@@ -24,7 +24,7 @@ const TableContainer = styled.div`
 `;
 
 const SideNav = styled.div`
-  flex: 0 0 240px;
+  flex: 0 0 24px;
   background: #212431;
   padding: 2rem;
   display: flex;
