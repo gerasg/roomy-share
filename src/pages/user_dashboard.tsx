@@ -1,9 +1,10 @@
 // user_dashboard.tsx
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Badge } from 'react-bootstrap';
-import { HouseFill } from 'react-bootstrap-icons';
+import { HouseFill, InfoCircle, BoxArrowInRight, Info } from 'react-bootstrap-icons';
 import styled from 'styled-components';
+import { useTable, useSortBy } from 'react-table';
 
 const DashboardWrapper = styled.div`
   display: flex;
@@ -75,6 +76,13 @@ const Card = styled.div`
   padding: 1.5rem;
   margin-bottom: 2rem;
   color: #FFFFFF;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); // Adding box-shadow for modern shadow effect.
+  transition: transform 0.2s, box-shadow 0.2s; // Adding transition for smooth transform effect.
+
+  &:hover {
+    transform: scale(1.01); // Card grows a bit on hover.
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.19), 0 8px 8px rgba(0, 0, 0, 0.23); // Bigger shadow on hover.
+  }
 
   @media (max-width: 768px) {
     overflow-x: auto;
@@ -98,7 +106,19 @@ const TableRow = styled.tr`
 const TableData = styled.td`
   padding: 1rem 0;
   color: #FFFFFF;
+  text-align: center;
 
+  &:first-child {
+    padding-right: 2rem;
+  }
+`;
+
+const TableHeader = styled.th`
+  padding: 1rem 0;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: bold; // This will make the font bold.
+  border-bottom: 2px solid #FFFFFF;
   &:first-child {
     padding-right: 2rem;
   }
@@ -136,7 +156,8 @@ export default function Dashboard() {
     }
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault();
     localStorage.removeItem('token');
     router.push('/login');
   }
@@ -207,75 +228,137 @@ export default function Dashboard() {
     }
   };  
 
+  const columnsTasks = useMemo(
+    () => [
+      {
+        Header: 'Fecha',
+        accessor: 'day',
+        Cell: ({ value }) => new Date(value).toLocaleDateString(),
+      },
+      {
+        Header: 'Task',
+        accessor: 'task',
+      },
+      {
+        Header: 'Status',
+        accessor: 'completed',
+        Cell: ({ value }) => (value ? <Badge bg="success">Completado</Badge> : <Badge bg="danger">Pendiente</Badge>)
+      },
+      {
+        id: 'checkbox',
+        accessor: '',
+        Cell: ({ row }) => (
+          <StyledCheckbox 
+            type="checkbox" 
+            checked={row.original.completed} 
+            onChange={() => handleMarkAsComplete(row.original)} 
+            disabled={row.original.completed} 
+          />
+        ),
+      }
+    ],
+    []
+  );
+
+  const {
+    getTableProps: getTablePropsTasks,
+    getTableBodyProps: getTableBodyPropsTasks,
+    headerGroups: headerGroupsTasks,
+    rows: rowsTasks,
+    prepareRow: prepareRowTasks,
+  } = useTable({ columns: columnsTasks, data: tasks }, useSortBy);
+
+  const columnsPayments = useMemo(
+    () => [
+      {
+        Header: 'Fecha de pago',
+        accessor: 'payment_date',
+        Cell: ({ value }) => new Date(value).toLocaleDateString(),
+      },
+      {
+        Header: 'Cantidad pagada',
+        accessor: 'amount_paid',
+      },
+      {
+        Header: 'Estado',
+        accessor: 'status',
+        Cell: ({ value }) => (value === 'paid' ? <Badge bg="success">Pagado</Badge> : <Badge bg="danger">Pendiente</Badge>)
+      },
+    ],
+    []
+  );
+  
+  const {
+    getTableProps: getTablePropsPayments,
+    getTableBodyProps: getTableBodyPropsPayments,
+    headerGroups: headerGroupsPayments,
+    rows: rowsPayments,
+    prepareRow: prepareRowPayments,
+  } = useTable({ columns: columnsPayments, data: payments }, useSortBy);
+
   return (
     <DashboardWrapper>
       <SideNav>
-        <NavItem href="/"><HouseFill /></NavItem>
+        <NavItem href="/"><HouseFill />Home</NavItem>
+        <NavItem href="/"><InfoCircle />Wiki</NavItem>
+        <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
       </SideNav>
       <MainContent>
         <Card>
           <h1>Bienvenido a tu panel de control</h1>
-          <Button onClick={handleLogout}>Cerrar sesión</Button>
         </Card>
         <Card>
         <TableContainer>
-          <Table>
-              <thead>
-                <TableRow>
-                  <TableData>Fecha</TableData>
-                  <TableData>Task</TableData>
-                  <TableData>Status</TableData>
-                  <TableData></TableData>
+          <Table {...getTablePropsTasks()}>
+            <thead>
+              {headerGroupsTasks.map((headerGroup) => (
+                <TableRow {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <TableHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
+                      {column.render('Header')}
+                      {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
+                    </TableHeader>
+                  ))}
                 </TableRow>
-              </thead>
-              <tbody>
-              {tasks.map((task, i) => {
-                const taskDate = new Date(task.day);
-                taskDate.setHours(0,0,0,0);
-                const now = new Date();
-                now.setHours(0,0,0,0);
-          
+              ))}
+            </thead>
+            <tbody {...getTableBodyPropsTasks()}>
+              {rowsTasks.map((row) => {
+                prepareRowTasks(row);
                 return (
-                  <TableRow key={i}>
-                    <TableData>{taskDate.toLocaleDateString()}</TableData>
-                    <TableData>{task.task}</TableData>
-                    <TableData>{task.completed ? <Badge bg="success">Completado</Badge> : <Badge bg="danger">Pendiente</Badge>}</TableData>
-                    <TableData>
-                      <StyledCheckbox 
-                        type="checkbox" 
-                        checked={task.completed} 
-                        onChange={() => handleMarkAsComplete(task)} 
-                        disabled={task.completed} 
-                      />
-                    </TableData>
+                  <TableRow {...row.getRowProps()}>
+                    {row.cells.map((cell) => <TableData {...cell.getCellProps()}>{cell.render('Cell')}</TableData>)}
                   </TableRow>
                 );
               })}
             </tbody>
           </Table>
         </TableContainer>
-
         </Card>
         <Card>
           <TableContainer>
-            <Table>
+            <Table {...getTablePropsPayments()}>
               <thead>
-                <TableRow>
-                  <TableData>Fecha de pago</TableData>
-                  <TableData>Cantidad pagada</TableData>
-                </TableRow>
-              </thead>
-              <tbody>
-                {payments.map((payment, i) => (
-                  <TableRow key={i}>
-                    <TableData>{new Date(payment.payment_date).toLocaleDateString()}</TableData>
-                    <TableData>{payment.amount_paid}</TableData>
-                    {payment.status === 'paid' 
-                      ? <Badge bg="success">Pagado</Badge> 
-                      : <Badge bg="danger">Pendiente</Badge>
-                    }
+                {headerGroupsPayments.map((headerGroup) => (
+                  <TableRow {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column) => (
+                      <TableHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
+                        {column.render('Header')}
+                        {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
+                      </TableHeader>
+                    ))}
                   </TableRow>
                 ))}
+              </thead>
+              <tbody {...getTableBodyPropsPayments()}>
+                {rowsPayments.map((row) => {
+                  prepareRowPayments(row);
+                  return (
+                    <TableRow {...row.getRowProps()}>
+                      {row.cells.map((cell) => <TableData {...cell.getCellProps()}>{cell.render('Cell')}</TableData>)}
+                    </TableRow>
+                  );
+                })}
               </tbody>
             </Table>
           </TableContainer>

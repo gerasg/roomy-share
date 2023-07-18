@@ -1,5 +1,4 @@
 import 'bootstrap/dist/css/bootstrap.css'
-import '../styles/Dashboard.css'  // <--- Aquí importamos los estilos de Dashboard
 import type { AppProps } from 'next/app'
 import Footer from '../components/Footer'
 import styles from '../styles/App.module.css'  

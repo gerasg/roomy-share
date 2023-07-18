@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useEffect, useState, useMemo } from 'react';
 import { Badge } from 'react-bootstrap';
-import { HouseFill } from 'react-bootstrap-icons';
+import { HouseFill, InfoCircle, BoxArrowInRight, Info } from 'react-bootstrap-icons';
 import styled from 'styled-components';
 import { useTable, useSortBy } from 'react-table';
 
@@ -76,6 +76,13 @@ const Card = styled.div`
   padding: 1.5rem;
   margin-bottom: 2rem;
   color: #FFFFFF;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); // Adding box-shadow for modern shadow effect.
+  transition: transform 0.2s, box-shadow 0.2s; // Adding transition for smooth transform effect.
+
+  &:hover {
+    transform: scale(1.01); // Card grows a bit on hover.
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.19), 0 8px 8px rgba(0, 0, 0, 0.23); // Bigger shadow on hover.
+  }
 
   @media (max-width: 768px) {
     overflow-x: auto;
@@ -99,7 +106,19 @@ const TableRow = styled.tr`
 const TableData = styled.td`
   padding: 1rem 0;
   color: #FFFFFF;
+  text-align: center;
 
+  &:first-child {
+    padding-right: 2rem;
+  }
+`;
+
+const TableHeader = styled.th`
+  padding: 1rem 0;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: bold; // This will make the font bold.
+  border-bottom: 2px solid #FFFFFF;
   &:first-child {
     padding-right: 2rem;
   }
@@ -137,9 +156,10 @@ export default function Dashboard() {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    router.push('/login')
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('token');
+    router.push('/login');
   }
 
   const assignTasks = async () => {
@@ -256,27 +276,28 @@ export default function Dashboard() {
   return (
     <DashboardWrapper>
       <SideNav>
-        <NavItem href="/admin"><HouseFill /></NavItem>
+        <NavItem href="/"><HouseFill />Home</NavItem>
+        <NavItem href="/"><InfoCircle />Wiki</NavItem>
+        <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
       </SideNav>
       <MainContent>
         <Card>
           <h1>Bienvenido a tu panel de control</h1>
-          <Button onClick={handleLogout}>Cerrar sesión</Button>
         </Card>
         <Card>
         <TableContainer>
           <Table {...getTablePropsTasks()}>
             <thead>
-              {headerGroupsTasks.map((headerGroup) => (
-                <TableRow {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <TableData {...column.getHeaderProps(column.getSortByToggleProps())}>
-                      {column.render('Header')}
-                      {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
-                    </TableData>
-                  ))}
-                </TableRow>
-              ))}
+            {headerGroupsTasks.map((headerGroup) => (
+              <TableRow {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <TableHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    {column.render('Header')}
+                    {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
+                  </TableHeader>
+                ))}
+              </TableRow>
+            ))}
             </thead>
             <tbody {...getTableBodyPropsTasks()}>
               {rowsTasks.map((row) => {
@@ -298,10 +319,10 @@ export default function Dashboard() {
             {headerGroupsPayments.map((headerGroup) => (
               <TableRow {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <TableData {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  <TableHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
                     {column.render('Header')}
                     {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
-                  </TableData>
+                  </TableHeader>
                 ))}
               </TableRow>
             ))}
