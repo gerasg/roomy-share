@@ -3,8 +3,46 @@ import { useRouter } from 'next/router';
 import { useEffect, useState, useMemo } from 'react';
 import { Badge } from 'react-bootstrap';
 import { HouseFill, InfoCircle, BoxArrowInRight, Info } from 'react-bootstrap-icons';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { useTable, useSortBy } from 'react-table';
+
+// Define la animación
+const gradientAnimation = keyframes`
+  0%{background-position:83% 0%}
+  50%{background-position:18% 100%}
+  100%{background-position:83% 0%}
+`;
+
+// Crea un mixin que utiliza la animación definida
+const gradientBackground = css`
+  background: linear-gradient(270deg, #00ffbd, #d974ff);
+  background-size: 400% 400%;
+  animation: ${gradientAnimation} 30s ease infinite;
+`;
+
+// Define el componente InfoCard usando el mixin
+const InfoCard = styled.div`
+  ${gradientBackground}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  padding: 15px;
+  margin: 15px;
+  width: calc((100% / 3) - 30px);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  color: white;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+`;
 
 const DashboardWrapper = styled.div`
   display: flex;
@@ -313,9 +351,22 @@ export default function Dashboard() {
         <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
       </SideNav>
       <MainContent>
-        <Card>
-          <h1>Bienvenido {userName}</h1>
-        </Card>
+        <h1>Bienvenido {userName}</h1>
+        <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap'}}>
+          <InfoCard>
+            <h3>Fin contrato</h3>
+            <h1>XX</h1>
+          </InfoCard>
+          <InfoCard>
+            <h3>Próximo pago</h3>
+            <h1>XX</h1>
+          </InfoCard>
+          <InfoCard>
+            <h3>Próxima tarea</h3>
+            <h1>XX</h1>
+          </InfoCard>
+        </div>
+        <h1>Tareas</h1>
         <Card>
         <TableContainer>
           <Table {...getTablePropsTasks()}>
@@ -344,6 +395,7 @@ export default function Dashboard() {
           </Table>
         </TableContainer>
         </Card>
+        <h1>Pagos</h1>
         <Card>
           <TableContainer>
             <Table {...getTablePropsPayments()}>
