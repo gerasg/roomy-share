@@ -46,7 +46,7 @@ app.post('/login', async (req, res) => {
         return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ userId: user.id, role, name: user.name, lastname: user.lastname }, 'your_secret_key');
+    const token = jwt.sign({ userId: user.id, role, name: user.name, lastname: user.lastname, contract_end_date: user.contract_end_date }, 'your_secret_key');
 
     res.json({ message: 'Logged in successfully', token, user: { name: user.name, lastname: user.lastname, role } });
 

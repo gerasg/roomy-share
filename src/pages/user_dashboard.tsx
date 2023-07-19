@@ -2,9 +2,17 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, useMemo } from 'react';
 import { Badge } from 'react-bootstrap';
-import { HouseFill, InfoCircle, BoxArrowInRight, Info } from 'react-bootstrap-icons';
+import { HouseFill, InfoCircle, BoxArrowInRight, Info, ListTask, Cash } from 'react-bootstrap-icons';
 import styled, { css, keyframes } from 'styled-components';
 import { useTable, useSortBy } from 'react-table';
+
+const StyledListTask = styled(ListTask)`
+  margin-right: 10px;
+`;
+
+const StyledCash = styled(Cash)`
+  margin-right: 10px;
+`;
 
 // Define la animación
 const gradientAnimation = keyframes`
@@ -15,7 +23,7 @@ const gradientAnimation = keyframes`
 
 // Crea un mixin que utiliza la animación definida
 const gradientBackground = css`
-  background: linear-gradient(270deg, #00ffbd, #d974ff);
+  background: linear-gradient(270deg, #00ffbd, #d974ff, #747dff, #ffb600);
   background-size: 400% 400%;
   animation: ${gradientAnimation} 30s ease infinite;
 `;
@@ -187,16 +195,40 @@ export default function Dashboard() {
   const [tasks, setTasks] = useState([]);
   const [payments, setPayments] = useState([]);
   const [userName, setUserName] = useState('');
+  const [contractEndDate, setContractEndDate] = useState('');
 
+  const nextPayment = useMemo(() => {
+    if (payments.length > 0) {
+      const lastPaymentDate = new Date(payments[payments.length - 1].payment_date);
+      lastPaymentDate.setMonth(lastPaymentDate.getMonth() + 1);
+      return lastPaymentDate;
+    }
+    return null;
+  }, [payments]);
+
+  const nextTask = useMemo(() => {
+    if (tasks.length > 0) {
+      return tasks.reduce((mostRecentTask, currentTask) => {
+        const mostRecentDate = new Date(mostRecentTask.day);
+        const currentDate = new Date(currentTask.day);
+        return currentDate > mostRecentDate ? currentTask : mostRecentTask;
+      }).day;
+    }
+    return null;
+  }, [tasks]);  
+  
+  
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const name = localStorage.getItem('name');
       const lastname = localStorage.getItem('lastname');
+      const contract_end_date = localStorage.getItem('contract_end_date');
       
-      const user = { name, lastname };
+      const user = { name, lastname, contract_end_date };
       
       if (user) {
         setUserName(user.name);
+        setContractEndDate(user.contract_end_date);
       }
       fetchTasks();
       fetchPayments();
@@ -351,22 +383,22 @@ export default function Dashboard() {
         <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
       </SideNav>
       <MainContent>
-        <h1>Bienvenido {userName}</h1>
+        <h2>Bienvenido {userName}</h2>
         <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap'}}>
           <InfoCard>
-            <h3>Fin contrato</h3>
-            <h1>XX</h1>
+            <h4>Fin contrato</h4>
+            <h3>{contractEndDate ? new Date(contractEndDate).toISOString().split('T')[0] : 'Cargando...'}</h3>
           </InfoCard>
           <InfoCard>
-            <h3>Próximo pago</h3>
-            <h1>XX</h1>
+            <h4>Próximo pago</h4>
+            <h3>{nextPayment ? nextPayment.toISOString().split('T')[0] : 'Cargando...'}</h3>
           </InfoCard>
           <InfoCard>
-            <h3>Próxima tarea</h3>
-            <h1>XX</h1>
+            <h4>Próxima tarea</h4>
+            <h3>{nextTask ? new Date(nextTask).toISOString().split('T')[0] : 'Cargando...'}</h3>
           </InfoCard>
         </div>
-        <h1>Tareas</h1>
+        <h2><StyledListTask />Tareas</h2>
         <Card>
         <TableContainer>
           <Table {...getTablePropsTasks()}>
@@ -395,7 +427,7 @@ export default function Dashboard() {
           </Table>
         </TableContainer>
         </Card>
-        <h1>Pagos</h1>
+        <h2><StyledCash />Pagos</h2>
         <Card>
           <TableContainer>
             <Table {...getTablePropsPayments()}>
