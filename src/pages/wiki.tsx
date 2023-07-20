@@ -15,7 +15,7 @@ const useAccordionToggle = (defaultActiveKey = '') => {
     return [activeKey, onToggle];
   };
 
-const AccordionToggleIcon = styled(({ isOpen, ...props }) => isOpen ? <ChevronUp {...props} /> : <ChevronDown {...props} />)`
+  const AccordionToggleIcon = styled(({ eventKey, activeKey, ...props }) => eventKey === activeKey ? <ChevronUp {...props} /> : <ChevronDown {...props} />)`
   color: #FFFFFF;
   margin-left: auto;
 `;
@@ -149,48 +149,389 @@ const StyledBootstrapCard = styled(BootstrapCard)`
 
 
 export default function Wiki() {
-    const router = useRouter();
-    const handleLogout = (e) => {
-      e.preventDefault();
-      localStorage.removeItem('token');
-      router.push('/login');
-    }
-    const [activeKey, onToggle] = useAccordionToggle('0');
-  
-    return (
-        <DashboardWrapper>
-          <SideNav>
-            <NavItem href="/"><HouseFill />Home</NavItem>
-            <NavItem href="/wiki"><InfoCircle />Wiki</NavItem>
-            <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
-          </SideNav>
-          <MainContent>
-            <h2>Wiki</h2>
-            <Accordion defaultActiveKey="0" activeKey={activeKey} onSelect={onToggle}>
-                <StyledBootstrapCard>
-                    <Accordion.Item eventKey="0">
-                    <StyledAccordionHeader>
-                        Accordion 1
-                        <AccordionToggleIcon isOpen={activeKey === '0'} />
-                    </StyledAccordionHeader>
-                    <StyledAccordionBody>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </StyledAccordionBody>
-                    </Accordion.Item>
-                </StyledBootstrapCard>
-                <StyledBootstrapCard>
-                    <Accordion.Item eventKey="1">
-                    <StyledAccordionHeader>
-                        Accordion 2
-                        <AccordionToggleIcon isOpen={activeKey === '1'} />
-                    </StyledAccordionHeader>
-                    <Accordion.Body>
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </Accordion.Body>
-                    </Accordion.Item>
-                </StyledBootstrapCard>
-            </Accordion>
-          </MainContent>
-        </DashboardWrapper>
-    );
+  const router = useRouter();
+  const [activeKey, onToggle] = useAccordionToggle();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('token');
+    router.push('/login');
   }
+
+  return (
+    <DashboardWrapper>
+      <SideNav>
+        <NavItem href="/"><HouseFill />Home</NavItem>
+        <NavItem href="/wiki"><InfoCircle />Wiki</NavItem>
+        <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
+      </SideNav>
+      <MainContent>
+        <h2>Wiki</h2>
+        <Accordion activeKey={activeKey} onSelect={onToggle}>
+          <StyledBootstrapCard>
+            <Accordion.Item eventKey="0">
+              <StyledAccordionHeader onClick={e => onToggle("0", e)}>
+                Accordion 1
+                
+              </StyledAccordionHeader>
+              <Accordion.Body>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 1
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 1
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 1
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 1
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 1
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 1
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 1
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 1
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+              </Accordion.Body>
+            </Accordion.Item>
+          </StyledBootstrapCard>
+          <StyledBootstrapCard>
+            <Accordion.Item eventKey="1">
+              <StyledAccordionHeader>
+                Accordion 2
+                
+              </StyledAccordionHeader>
+              <Accordion.Body>
+              <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 2
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 2
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 2
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 2
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 2
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 2
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 2
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 2
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 2
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 2
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 2
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 2
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 2
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 2
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 2
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 2
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+              </Accordion.Body>
+            </Accordion.Item>
+          </StyledBootstrapCard>
+          <StyledBootstrapCard>
+            <Accordion.Item eventKey="2">
+              <StyledAccordionHeader>
+                Accordion 3
+                
+              </StyledAccordionHeader>
+              <Accordion.Body>
+              <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 3
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 3
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 3
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 3
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 3
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 3
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 3
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 3
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 3
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 3
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 3
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 3
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 3
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 3
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 3
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 3
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+              </Accordion.Body>
+            </Accordion.Item>
+          </StyledBootstrapCard>
+          <StyledBootstrapCard>
+            <Accordion.Item eventKey="3">
+              <StyledAccordionHeader>
+                Accordion 4
+                
+              </StyledAccordionHeader>
+              <Accordion.Body>
+              <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 4
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 4
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 4
+                        
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 4
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 4
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 4
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 4
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 4
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Nested Accordion 4
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 4
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+              </Accordion.Body>
+            </Accordion.Item>
+          </StyledBootstrapCard>
+        </Accordion>
+      </MainContent>
+    </DashboardWrapper>
+  );
+}
