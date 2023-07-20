@@ -379,7 +379,7 @@ export default function Dashboard() {
     <DashboardWrapper>
       <SideNav>
         <NavItem href="/"><HouseFill />Home</NavItem>
-        <NavItem href="/"><InfoCircle />Wiki</NavItem>
+        <NavItem href="/wiki"><InfoCircle />Wiki</NavItem>
         <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
       </SideNav>
       <MainContent>

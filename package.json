@@ -9,6 +9,7 @@
   "dependencies": {
     "@wojtekmaj/react-daterange-picker": "^5.2.0",
     "axios": "^1.4.0",
+    "babel-plugin": "^1.0.7",
     "bcrypt": "^5.1.0",
     "bootstrap": "^5.3.0",
     "cors": "^2.8.5",
