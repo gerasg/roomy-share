@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import { Badge, Accordion, Card as BootstrapCard } from 'react-bootstrap';
+import PrivateRoute from '../components/PrivateRoute';
+import { Accordion, Card as BootstrapCard } from 'react-bootstrap';
 import { HouseFill, InfoCircle, BoxArrowInRight, ChevronDown, ChevronUp, UsbSymbol, Power, Tools, Bucket, HouseDoorFill, ClockFill, VolumeMute } from 'react-bootstrap-icons';
 
 import styled from 'styled-components';
@@ -148,7 +149,7 @@ const StyledBootstrapCard = styled(BootstrapCard)`
 
 
 
-export default function Wiki() {
+const Wiki = () => {
   const router = useRouter();
   const [activeKey, onToggle] = useAccordionToggle();
 
@@ -171,8 +172,7 @@ export default function Wiki() {
           <StyledBootstrapCard>
             <Accordion.Item eventKey="0">
               <StyledAccordionHeader onClick={e => onToggle("0", e)}>
-                Accordion 1
-                
+                Electrónica <UsbSymbol/>
               </StyledAccordionHeader>
               <Accordion.Body>
                 <Accordion defaultActiveKey="0">
@@ -233,8 +233,7 @@ export default function Wiki() {
           <StyledBootstrapCard>
             <Accordion.Item eventKey="1">
               <StyledAccordionHeader>
-                Accordion 2
-                
+                Electrodomésticos <Power/>
               </StyledAccordionHeader>
               <Accordion.Body>
               <Accordion defaultActiveKey="0">
@@ -242,7 +241,6 @@ export default function Wiki() {
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
                         Nested Accordion 2
-                        
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 2
@@ -347,8 +345,7 @@ export default function Wiki() {
           <StyledBootstrapCard>
             <Accordion.Item eventKey="2">
               <StyledAccordionHeader>
-                Accordion 3
-                
+                Limpieza / Mantenimiento <Tools/>
               </StyledAccordionHeader>
               <Accordion.Body>
               <Accordion defaultActiveKey="0">
@@ -356,7 +353,6 @@ export default function Wiki() {
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
                         Nested Accordion 3
-                        
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 3
@@ -461,8 +457,7 @@ export default function Wiki() {
           <StyledBootstrapCard>
             <Accordion.Item eventKey="3">
               <StyledAccordionHeader>
-                Accordion 4
-                
+                Otros <Bucket/>
               </StyledAccordionHeader>
               <Accordion.Body>
               <Accordion defaultActiveKey="0">
@@ -535,3 +530,4 @@ export default function Wiki() {
     </DashboardWrapper>
   );
 }
+export default PrivateRoute(Wiki);

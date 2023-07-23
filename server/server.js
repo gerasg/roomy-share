@@ -57,6 +57,22 @@ app.post('/login', async (req, res) => {
     }
 });
 
+app.get('/verifyToken', (req, res) => {
+    const token = req.headers.authorization;
+  
+    if (!token) {
+      return res.status(401).json({ message: 'Token must be provided' });
+    }
+  
+    try {
+      const user = jwt.verify(token, 'your_secret_key');
+      res.json({ message: 'Token is valid', user });
+    } catch (error) {
+      console.error('JWT verify error:', error);
+      res.status(401).json({ message: 'Token is not valid' });
+    }
+  });  
+
 app.get('/available_rooms', async (req, res) => {
     const startDate = req.query.startDate;
     const endDate = req.query.endDate;
