@@ -160,8 +160,12 @@ export default function Dashboard() {
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('name');
+    localStorage.removeItem('lastname');
+    localStorage.removeItem('contract_end_date');
     router.push('/login');
-  }
+  }  
 
   const assignTasks = async () => {
     try {
@@ -277,7 +281,6 @@ export default function Dashboard() {
   useEffect(() => {
     const role = localStorage.getItem('role');
     if (!role || role !== 'owner') {
-      localStorage.setItem('prevUrl', window.location.pathname);
       router.push('/error');
     } else {
       setIsLoading(false);

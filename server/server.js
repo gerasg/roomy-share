@@ -9,8 +9,8 @@ const cron = require('node-cron');
 
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3000', // aquí va la url de tu frontend
-    methods: ['GET', 'POST', 'PUT'], // métodos permitidos
+    origin: 'http://localhost:3000', // frontend URL
+    methods: ['GET', 'POST', 'PUT'], // allowed methods
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
@@ -55,23 +55,7 @@ app.post('/login', async (req, res) => {
         console.error('Database error:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
-});
-
-app.get('/verifyToken', (req, res) => {
-    const token = req.headers.authorization;
-  
-    if (!token) {
-      return res.status(401).json({ message: 'Token must be provided' });
-    }
-  
-    try {
-      const user = jwt.verify(token, 'your_secret_key');
-      res.json({ message: 'Token is valid', user });
-    } catch (error) {
-      console.error('JWT verify error:', error);
-      res.status(401).json({ message: 'Token is not valid' });
-    }
-  });  
+}); 
 
 app.get('/available_rooms', async (req, res) => {
     const startDate = req.query.startDate;

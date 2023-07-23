@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import PrivateRoute from '../components/PrivateRoute';
 import { Accordion, Card as BootstrapCard } from 'react-bootstrap';
 import { HouseFill, InfoCircle, BoxArrowInRight, ChevronDown, ChevronUp, UsbSymbol, Power, Tools, Bucket, HouseDoorFill, ClockFill, VolumeMute } from 'react-bootstrap-icons';
 
@@ -149,7 +148,8 @@ const StyledBootstrapCard = styled(BootstrapCard)`
 
 
 
-const Wiki = () => {
+export default function Wiki() {
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const [activeKey, onToggle] = useAccordionToggle();
 
@@ -157,6 +157,20 @@ const Wiki = () => {
     e.preventDefault();
     localStorage.removeItem('token');
     router.push('/login');
+  }
+
+  useEffect(() => {
+    const role = localStorage.getItem('role');
+    console.log(role);
+    if (!role) {
+      router.push('/error');
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // or any loading indicator you prefer
   }
 
   return (
@@ -530,4 +544,3 @@ const Wiki = () => {
     </DashboardWrapper>
   );
 }
-export default PrivateRoute(Wiki);

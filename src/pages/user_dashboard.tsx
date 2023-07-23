@@ -198,6 +198,16 @@ export default function Dashboard() {
   const [userName, setUserName] = useState('');
   const [contractEndDate, setContractEndDate] = useState('');
 
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('name');
+    localStorage.removeItem('lastname');
+    localStorage.removeItem('contract_end_date');
+    router.push('/login');
+  }
+
   const nextPayment = useMemo(() => {
     if (payments.length > 0) {
       const lastPaymentDate = new Date(payments[payments.length - 1].payment_date);
@@ -234,12 +244,6 @@ export default function Dashboard() {
       fetchPayments();
     }
   }, []);
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-    localStorage.removeItem('token');
-    router.push('/login');
-  }
 
   const fetchTasks = async () => {
     const token = localStorage.getItem('token');
@@ -378,7 +382,6 @@ export default function Dashboard() {
   useEffect(() => {
     const role = localStorage.getItem('role');
     if (!role || role !== 'tenant') {
-      localStorage.setItem('prevUrl', window.location.pathname);
       router.push('/error');
     } else {
       setIsLoading(false);
