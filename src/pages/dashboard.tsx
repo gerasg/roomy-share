@@ -145,6 +145,7 @@ const StyledCheckbox = styled.input`
 `;
 
 export default function Dashboard() {
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const [tasks, setTasks] = useState([]);
   const [payments, setPayments] = useState([]);
@@ -272,6 +273,20 @@ export default function Dashboard() {
     rows: rowsPayments,
     prepareRow: prepareRowPayments,
   } = useTable({ columns: columnsPayments, data: payments }, useSortBy);
+
+  useEffect(() => {
+    const role = localStorage.getItem('role');
+    if (!role || role !== 'owner') {
+      localStorage.setItem('prevUrl', window.location.pathname);
+      router.push('/error');
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // or any loading indicator you prefer
+  }
 
   return (
     <DashboardWrapper>

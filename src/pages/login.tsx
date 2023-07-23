@@ -29,6 +29,7 @@ export default function Login() {
         localStorage.setItem('name', decodedToken.name);
         localStorage.setItem('lastname', decodedToken.lastname);
         localStorage.setItem('contract_end_date', decodedToken.contract_end_date);
+        localStorage.setItem('role', decodedToken.role);
         if (decodedToken.role === 'owner') {
           router.push('/dashboard')
         } else if (decodedToken.role === 'tenant') {
