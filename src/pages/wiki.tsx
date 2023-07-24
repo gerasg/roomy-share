@@ -156,6 +156,10 @@ export default function Wiki() {
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('name');
+    localStorage.removeItem('lastname');
+    localStorage.removeItem('contract_end_date');
     router.push('/login');
   }
 
