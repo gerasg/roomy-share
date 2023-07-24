@@ -14,6 +14,21 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+// Función de middleware para verificar el token
+function verifyToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, 'your_secret_key', (err, user) => {
+        if (err) return res.sendStatus(403);
+
+        req.user = user;
+        next();
+    });
+}
+
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -143,9 +158,10 @@ app.post('/assign_tasks', async (req, res) => {
     res.json({ message: 'Tareas asignadas con éxito' });
 });
 
-app.get('/tenant_tasks', async (req, res) => {
+app.get('/tenant_tasks', verifyToken, async (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
+    const user = req.user;
 
     if (!token) return res.sendStatus(401);
 
@@ -183,9 +199,10 @@ app.get('/tenant_tasks', async (req, res) => {
     });
 });
 
-app.get('/admin_tasks', async (req, res) => {
+app.get('/admin_tasks', verifyToken, async (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
+    const user = req.user;
     if (!token) return res.sendStatus(401);
 
     jwt.verify(token, 'your_secret_key', async (err, user) => {
@@ -215,9 +232,10 @@ app.get('/admin_tasks', async (req, res) => {
     });
 });
 
-app.get('/payments', async (req, res) => {
+app.get('/payments', verifyToken, async (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
+    const user = req.user;
 
     if (!token) return res.sendStatus(401);
 
@@ -247,9 +265,10 @@ app.get('/payments', async (req, res) => {
     });
 });
 
-app.get('/admin_payments', async (req, res) => {
+app.get('/admin_payments', verifyToken, async (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
+    const user = req.user;
 
     if (!token) return res.sendStatus(401);
 
@@ -278,10 +297,11 @@ app.get('/admin_payments', async (req, res) => {
     });
 });
 
-app.put('/tenant_tasks/:taskId', async (req, res) => {
+app.put('/tenant_tasks/:taskId', verifyToken, async (req, res) => {
     const taskId = req.params.taskId;
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
+    const user = req.user;
 
     if (!token) return res.sendStatus(401);
 
