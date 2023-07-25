@@ -227,7 +227,7 @@ export default function Dashboard() {
       {
         Header: "Fecha",
         accessor: "day",
-        Cell: ({ value }) => new Date(value).toLocaleDateString()
+        Cell: ({ value }) => new Date(value).toLocaleDateString('en-GB', { timeZone: 'Europe/Madrid' }),
       },
       {
         Header: "Task",
@@ -247,7 +247,7 @@ export default function Dashboard() {
       {
         Header: "Fecha de pago",
         accessor: "payment_date",
-        Cell: ({ value }) => new Date(value).toLocaleDateString()
+        Cell: ({ value }) => new Date(value).toLocaleDateString('en-GB', { timeZone: 'Europe/Madrid' }),
       },
       {
         Header: "Cantidad pagada",

@@ -197,8 +197,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 1
-                        
+                        Video Portero
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 1
@@ -210,8 +209,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 1
-                        
+                        Termostato
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 1
@@ -223,8 +221,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 1
-                        
+                        Nuki Smart Lock
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 1
@@ -236,8 +233,19 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 1
-                        
+                        Smart TV
+                      </StyledAccordionHeader>
+                      <Accordion.Body>
+                        Content for Nested Accordion 1
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </StyledBootstrapCard>
+                </Accordion>
+                <Accordion defaultActiveKey="0">
+                  <StyledBootstrapCard>
+                    <Accordion.Item eventKey="0">
+                      <StyledAccordionHeader>
+                        Cerradura Digital
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 1
@@ -270,8 +278,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 2
-                        
+                        Lavadora
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 2
@@ -283,8 +290,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 2
-                        
+                        Horno
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 2
@@ -296,8 +302,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 2
-                        
+                        Microondas
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 2
@@ -309,8 +314,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 2
-                        
+                        Horno
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 2
@@ -322,8 +326,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 2
-                        
+                        Lavaplatos
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 2
@@ -335,8 +338,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 2
-                        
+                        Aspiradora
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 2
@@ -348,8 +350,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 2
-                        
+                        Nevera
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 2
@@ -370,10 +371,10 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 3
+                        Limpieza cocina
                       </StyledAccordionHeader>
                       <Accordion.Body>
-                        Content for Nested Accordion 3
+                        Content for Nested Accordion 4
                       </Accordion.Body>
                     </Accordion.Item>
                   </StyledBootstrapCard>
@@ -382,11 +383,10 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 3
-                        
+                        Limpieza comedor
                       </StyledAccordionHeader>
                       <Accordion.Body>
-                        Content for Nested Accordion 3
+                        Content for Nested Accordion 4
                       </Accordion.Body>
                     </Accordion.Item>
                   </StyledBootstrapCard>
@@ -395,11 +395,10 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 3
-                        
+                        Limpieza baños
                       </StyledAccordionHeader>
                       <Accordion.Body>
-                        Content for Nested Accordion 3
+                        Content for Nested Accordion 4
                       </Accordion.Body>
                     </Accordion.Item>
                   </StyledBootstrapCard>
@@ -408,11 +407,10 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 3
-                        
+                        Limpieza pasillos
                       </StyledAccordionHeader>
                       <Accordion.Body>
-                        Content for Nested Accordion 3
+                        Content for Nested Accordion 4
                       </Accordion.Body>
                     </Accordion.Item>
                   </StyledBootstrapCard>
@@ -421,50 +419,10 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 3
-                        
+                        Basura
                       </StyledAccordionHeader>
                       <Accordion.Body>
-                        Content for Nested Accordion 3
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </StyledBootstrapCard>
-                </Accordion>
-                <Accordion defaultActiveKey="0">
-                  <StyledBootstrapCard>
-                    <Accordion.Item eventKey="0">
-                      <StyledAccordionHeader>
-                        Nested Accordion 3
-                        
-                      </StyledAccordionHeader>
-                      <Accordion.Body>
-                        Content for Nested Accordion 3
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </StyledBootstrapCard>
-                </Accordion>
-                <Accordion defaultActiveKey="0">
-                  <StyledBootstrapCard>
-                    <Accordion.Item eventKey="0">
-                      <StyledAccordionHeader>
-                        Nested Accordion 3
-                        
-                      </StyledAccordionHeader>
-                      <Accordion.Body>
-                        Content for Nested Accordion 3
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </StyledBootstrapCard>
-                </Accordion>
-                <Accordion defaultActiveKey="0">
-                  <StyledBootstrapCard>
-                    <Accordion.Item eventKey="0">
-                      <StyledAccordionHeader>
-                        Nested Accordion 3
-                        
-                      </StyledAccordionHeader>
-                      <Accordion.Body>
-                        Content for Nested Accordion 3
+                        Content for Nested Accordion 4
                       </Accordion.Body>
                     </Accordion.Item>
                   </StyledBootstrapCard>
@@ -482,8 +440,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 4
-                        
+                        Otros 1
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 4
@@ -495,8 +452,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 4
-                        
+                        Otros 2
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 4
@@ -508,7 +464,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 4
+                        Otros 3
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 4
@@ -520,7 +476,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 4
+                        Otros 4
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 4
@@ -532,7 +488,7 @@ export default function Wiki() {
                   <StyledBootstrapCard>
                     <Accordion.Item eventKey="0">
                       <StyledAccordionHeader>
-                        Nested Accordion 4
+                        Otros 5
                       </StyledAccordionHeader>
                       <Accordion.Body>
                         Content for Nested Accordion 4

@@ -36,7 +36,8 @@
 }
 
 .login-button:hover {
-  background: #31b867;
+  background: #42ec84;
+  color: white;
 }
 
 @-webkit-keyframes AnimationName {

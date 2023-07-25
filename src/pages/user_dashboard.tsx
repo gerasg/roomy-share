@@ -316,7 +316,7 @@ export default function Dashboard() {
       {
         Header: 'Fecha',
         accessor: 'day',
-        Cell: ({ value }) => new Date(value).toLocaleDateString(),
+        Cell: ({ value }) => new Date(value).toLocaleDateString('en-GB', { timeZone: 'Europe/Madrid' }),
       },
       {
         Header: 'Task',
@@ -356,7 +356,7 @@ export default function Dashboard() {
       {
         Header: 'Fecha de pago',
         accessor: 'payment_date',
-        Cell: ({ value }) => new Date(value).toLocaleDateString(),
+        Cell: ({ value }) => new Date(value).toLocaleDateString('en-GB', { timeZone: 'Europe/Madrid' }),
       },
       {
         Header: 'Cantidad pagada',
@@ -404,15 +404,15 @@ export default function Dashboard() {
         <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap'}}>
           <InfoCard>
             <h4>Fin contrato</h4>
-            <h3>{contractEndDate ? new Date(contractEndDate).toISOString().split('T')[0] : 'Cargando...'}</h3>
+            <h3>{contractEndDate ? new Date(contractEndDate).toLocaleDateString('en-GB', { timeZone: 'Europe/Madrid' }) : 'Cargando...'}</h3>
           </InfoCard>
           <InfoCard>
             <h4>Próximo pago</h4>
-            <h3>{nextPayment ? nextPayment.toISOString().split('T')[0] : 'Cargando...'}</h3>
+            <h3>{nextPayment ? new Date(nextPayment).toLocaleDateString('en-GB', { timeZone: 'Europe/Madrid' }) : 'Cargando...'}</h3>
           </InfoCard>
           <InfoCard>
             <h4>Próxima tarea</h4>
-            <h3>{nextTask ? new Date(nextTask).toISOString().split('T')[0] : 'Cargando...'}</h3>
+            <h3>{nextTask ? new Date(nextTask).toLocaleDateString('en-GB', { timeZone: 'Europe/Madrid' }) : 'Cargando...'}</h3>
           </InfoCard>
         </div>
         <h2><StyledListTask />Tareas</h2>
