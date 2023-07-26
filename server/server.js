@@ -6,6 +6,10 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 const app = express();
 const cron = require('node-cron');
+require('dotenv').config();
+const dbUrl = process.env.DATABASE_URL;
+const jwtSecret = process.env.JWT_SECRET;
+
 
 app.use(express.json());
 app.use(cors({
@@ -19,10 +23,18 @@ function verifyToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) return res.sendStatus(401);
+    if (!token) return res.status(401).json({message: 'Token missing'});
 
-    jwt.verify(token, 'your_secret_key', (err, user) => {
-        if (err) return res.sendStatus(403);
+    jwt.verify(token, jwtSecret, (err, user) => {
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                return res.status(403).json({message: 'Token expired'});
+            } else if (err.name === 'JsonWebTokenError') {
+                return res.status(403).json({message: 'Invalid token'});
+            } else {
+                return res.status(500).json({message: 'Token validation failed'});
+            }
+        }
 
         req.user = user;
         next();
@@ -33,7 +45,7 @@ app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     const client = new Client({
-        connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+        connectionString: dbUrl
     });
 
     try {
@@ -61,7 +73,7 @@ app.post('/login', async (req, res) => {
         return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ userId: user.id, role, name: user.name, lastname: user.lastname, contract_end_date: user.contract_end_date }, 'your_secret_key');
+    const token = jwt.sign({ userId: user.id, role, name: user.name, lastname: user.lastname, contract_end_date: user.contract_end_date }, jwtSecret, { expiresIn: '1h' });
 
     res.json({ message: 'Logged in successfully', token, user: { name: user.name, lastname: user.lastname, role } });
 
@@ -77,7 +89,7 @@ app.get('/available_rooms', async (req, res) => {
     const endDate = req.query.endDate;
 
     const client = new Client({
-        connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+        connectionString: dbUrl
     });
 
     try {
@@ -106,7 +118,7 @@ app.get('/available_rooms', async (req, res) => {
 
 const assignTasks = async () => {
     const client = new Client({
-        connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+        connectionString: dbUrl
     });
 
     try {
@@ -165,11 +177,11 @@ app.get('/tenant_tasks', verifyToken, async (req, res) => {
 
     if (!token) return res.sendStatus(401);
 
-    jwt.verify(token, 'your_secret_key', async (err, user) => {
+    jwt.verify(token, jwtSecret, async (err, user) => {
         if (err) return res.sendStatus(403);
 
         const client = new Client({
-            connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+            connectionString: dbUrl
         });
 
         try {
@@ -205,13 +217,13 @@ app.get('/admin_tasks', verifyToken, async (req, res) => {
     const user = req.user;
     if (!token) return res.sendStatus(401);
 
-    jwt.verify(token, 'your_secret_key', async (err, user) => {
+    jwt.verify(token, jwtSecret, async (err, user) => {
         if (err) {
             return res.sendStatus(403);
         }
 
         const client = new Client({
-            connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+            connectionString: dbUrl
         });
 
         try {
@@ -239,11 +251,11 @@ app.get('/payments', verifyToken, async (req, res) => {
 
     if (!token) return res.sendStatus(401);
 
-    jwt.verify(token, 'your_secret_key', async (err, user) => {
+    jwt.verify(token, jwtSecret, async (err, user) => {
         if (err) return res.sendStatus(403);
 
         const client = new Client({
-            connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+            connectionString: dbUrl
         });
 
         try {
@@ -272,11 +284,11 @@ app.get('/admin_payments', verifyToken, async (req, res) => {
 
     if (!token) return res.sendStatus(401);
 
-    jwt.verify(token, 'your_secret_key', async (err, user) => {
+    jwt.verify(token, jwtSecret, async (err, user) => {
         if (err) return res.sendStatus(403);
 
         const client = new Client({
-            connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+            connectionString: dbUrl
         });
 
         try {
@@ -305,11 +317,11 @@ app.put('/tenant_tasks/:taskId', verifyToken, async (req, res) => {
 
     if (!token) return res.sendStatus(401);
 
-    jwt.verify(token, 'your_secret_key', async (err, user) => {
+    jwt.verify(token, jwtSecret, async (err, user) => {
         if (err) return res.sendStatus(403);
 
         const client = new Client({
-            connectionString: 'postgresql://gera@localhost:5432/roomyshare'
+            connectionString: dbUrl
         });
 
         try {
