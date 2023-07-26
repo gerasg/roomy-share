@@ -403,7 +403,7 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
           feedbackType="invalid"
         />
       </Form.Group>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal size="lg" show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Términos y Condiciones</Modal.Title>
         </Modal.Header>
@@ -441,7 +441,7 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={privacyPolicyShow} onHide={handlePrivacyPolicyClose} scrollable={true}>
+      <Modal size="lg" show={privacyPolicyShow} onHide={handlePrivacyPolicyClose} scrollable={true}>
         <Modal.Header closeButton>
           <Modal.Title>Política de Privacidad</Modal.Title>
         </Modal.Header>
