@@ -150,6 +150,7 @@ const StyledBootstrapCard = styled(BootstrapCard)`
 
 export default function Wiki() {
   const [isLoading, setIsLoading] = useState(true);
+  const [role, setRole] = useState(null); // Here's the new state variable for role
   const router = useRouter();
   const [activeKey, onToggle] = useAccordionToggle();
 
@@ -164,11 +165,11 @@ export default function Wiki() {
   }
 
   useEffect(() => {
-    const role = localStorage.getItem('role');
-    console.log(role);
-    if (!role) {
+    const userRole = localStorage.getItem('role');
+    if (!userRole) {
       router.push('/error');
     } else {
+      setRole(userRole); // Here's where you set the role
       setIsLoading(false);
     }
   }, []);
@@ -181,7 +182,11 @@ export default function Wiki() {
     <DashboardWrapper>
       <SideNav>
         <NavItem href="/"><HouseFill />Home</NavItem>
-        <NavItem href="/wiki"><InfoCircle />Wiki</NavItem>
+
+        {/* Conditionally render the NavItem */}
+        {role === 'owner' && <NavItem href="/dashboard"><InfoCircle />Dashboard</NavItem>}
+        {role === 'tenant' && <NavItem href="/user_dashboard"><InfoCircle />Dashboard</NavItem>}
+
         <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
       </SideNav>
       <MainContent>
@@ -504,3 +509,6 @@ export default function Wiki() {
     </DashboardWrapper>
   );
 }
+
+
+
