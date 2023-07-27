@@ -30,7 +30,8 @@ const SideNav = styled.div`
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; // Change this line
+  justify-content: flex-start; // Add this line
 
   @media (max-width: 768px) {
     flex-direction: row;
@@ -294,9 +295,9 @@ export default function Dashboard() {
   return (
     <DashboardWrapper>
       <SideNav>
-        <NavItem href="/"><HouseFill />Home</NavItem>
-        <NavItem href="/wiki"><InfoCircle />Wiki</NavItem>
-        <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
+        <NavItem href="/"><HouseFill /><span>Home</span></NavItem>
+        <NavItem href="/wiki"><InfoCircle /><span>Wiki</span></NavItem>
+        <NavItem href="/" onClick={handleLogout}><BoxArrowInRight /><span>Logout</span></NavItem>
       </SideNav>
       <MainContent>
         <Card>

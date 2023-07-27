@@ -38,7 +38,8 @@ const SideNav = styled.div`
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; // Change this line
+  justify-content: flex-start; // Add this line
 
   @media (max-width: 768px) {
     flex-direction: row;
@@ -181,13 +182,11 @@ export default function Wiki() {
   return (
     <DashboardWrapper>
       <SideNav>
-        <NavItem href="/"><HouseFill />Home</NavItem>
-
+        <NavItem href="/"><HouseFill /><span>Home</span></NavItem>
         {/* Conditionally render the NavItem */}
-        {role === 'owner' && <NavItem href="/dashboard"><InfoCircle />Dashboard</NavItem>}
-        {role === 'tenant' && <NavItem href="/user_dashboard"><InfoCircle />Dashboard</NavItem>}
-
-        <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
+        {role === 'owner' && <NavItem href="/dashboard"><InfoCircle /><span>Dashboard</span></NavItem>}
+        {role === 'tenant' && <NavItem href="/user_dashboard"><InfoCircle /><span>Dashboard</span></NavItem>}
+        <NavItem href="/" onClick={handleLogout}><BoxArrowInRight /><span>Logout</span></NavItem>
       </SideNav>
       <MainContent>
         <h2>Wiki</h2>

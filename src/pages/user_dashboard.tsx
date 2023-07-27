@@ -76,7 +76,8 @@ const SideNav = styled.div`
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; // Change this line
+  justify-content: flex-start; // Add this line
 
   @media (max-width: 768px) {
     flex-direction: row;
@@ -93,6 +94,7 @@ const MainContent = styled.div`
     padding: 1rem;
   }
 `;
+
 
 const NavItem = styled.a`
   display: flex;
@@ -114,6 +116,10 @@ const NavItem = styled.a`
     padding: 0.5rem;
     margin-bottom: 0;
   }
+`;
+
+const NavItemText = styled.span`
+  margin-left: 1rem;
 `;
 
 const Card = styled.div`
@@ -395,9 +401,9 @@ export default function Dashboard() {
   return (
     <DashboardWrapper>
       <SideNav>
-        <NavItem href="/"><HouseFill />Home</NavItem>
-        <NavItem href="/wiki"><InfoCircle />Wiki</NavItem>
-        <NavItem href="/" onClick={handleLogout}><BoxArrowInRight />Logout</NavItem>
+        <NavItem href="/"><HouseFill /><span>Home</span></NavItem>
+        <NavItem href="/wiki"><InfoCircle /><span>Wiki</span></NavItem>
+        <NavItem href="/" onClick={handleLogout}><BoxArrowInRight /><span>Logout</span></NavItem>
       </SideNav>
       <MainContent>
         <h2>Bienvenido {userName}</h2>
