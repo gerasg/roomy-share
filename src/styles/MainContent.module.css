@@ -1,67 +1,65 @@
-   .mainContent {
-    flex: 1;
-    padding: 0;
+.mainContent {
+  flex: 1;
+  padding: 0;
 }
 
 .customContainer {
-    width: 100%;
-    max-width: 100%;
-  }
+  width: 100%;
+  max-width: 100%;
+}
   
 
-  .featureRow {
-    background-color: #ffffff;
-    max-width: 1140px;
-    margin: auto;
-    padding: 15px;
-  }
+.featureRow {
+  background-color: #ffffff;
+  max-width: 1140px;
+  margin: auto;
+  padding: 15px;
+}
   
-  .carousel {
-      padding: 0;
-      margin: 0;
-      width: 100vw;
-  }  
+.carousel {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+}  
 
 .carouselImage {
-    object-fit: cover;
-    width: 100%;
-    height: 70vh;
-    max-height: 70vh;
+  object-fit: cover;
+  width: 100%;
+  height: 70vh;
+  max-height: 70vh;
 }
 
 .carouselCaption {
-    top: 20%;
-    bottom: auto;
-    text-align: center;
-    color: #fff;
+  top: 20%;
+  bottom: auto;
+  text-align: center;
+  color: #fff;
 }
 
 .cardContainer {
-    margin: 20px;
-  }
+  margin: 20px;
+}
   
-  .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-  }
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
   
-  .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
-  }
-  
-  .cardIcon {
-    color: #6c757d;
-    transition: color 0.3s;
-  }
-  
-  .card:hover .cardIcon {
-    color: #0d6efd;
-  }
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+}
 
-/* El resto de tus estilos */
+.cardIcon {
+  color: #6c757d;
+  transition: color 0.3s;
+}
+
+.card:hover .cardIcon {
+  color: #0d6efd;
+}
 
 .masonrySection {
-    background-color: #f2f2f2; /* Elige tu propio color de fondo */
+    background-color: #f2f2f2;
     display: flex;
     align-items: stretch;
     height: 50vh;
@@ -128,7 +126,7 @@
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/contact.jpg');
     background-size: cover;
     background-position: center;
-    height: 70vh;
+    height: 80vh;
     color: #5b5959;
     padding: 15px;
   }
@@ -138,6 +136,11 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .contactBox textarea {
+    max-height: 130px;
+    min-height: 70px; /* Ajusta según tus necesidades */
   }
   
   @media (max-width: 768px) {

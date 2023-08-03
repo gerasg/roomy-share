@@ -1,5 +1,6 @@
 import { Carousel, Row, Col, Button, Image, Form, Card } from 'react-bootstrap'
 import { FaCity, FaTemperatureLow, FaUmbrellaBeach } from 'react-icons/fa'
+import { useTranslation } from 'next-i18next'
 import styles from '../styles/MainContent.module.css'
 import Link from 'next/link'
 import axios from 'axios';
@@ -33,6 +34,7 @@ const handleSubmit = (event) => {
 };
 
 export default function MainContent() {
+  const { t } = useTranslation();
   return (
     <main className={`${styles.mainContent} d-flex flex-column justify-content-center align-items-center`}>
       <div className={styles.customContainer}>
@@ -40,7 +42,7 @@ export default function MainContent() {
         <Carousel.Item>
           <Image src="/images/carrusel1.jpg" fluid className={styles.carouselImage} />
           <Carousel.Caption className={styles.carouselCaption}>
-            <h3>Bienvenido a Roomy Share</h3>
+            <h3>{t('welcome')}</h3>
             <Link href="/booking">
               <Button variant="primary">¡Haz tu reserva ahora!</Button>
             </Link>
@@ -108,7 +110,7 @@ export default function MainContent() {
         <Row className={`${styles.contactSection} justify-content-center align-items-center`}>
           <Col xs={12} sm={8} md={6}>
               <div className={`${styles.contactBox}`}>
-              <h3 className="text-center mb-3">Contáctanos</h3>
+              <h3 className="text-center mb-3 text-uppercase">CONTACTAR</h3>
               <Form onSubmit={handleSubmit}>
                   <Form.Group controlId="contactForm.Name">
                   <Form.Label>Nombre</Form.Label>
@@ -127,10 +129,10 @@ export default function MainContent() {
                   <Form.Control type="tel" placeholder="Tu número de teléfono" required/>
                   </Form.Group>
                   <Form.Group controlId="contactForm.Message">
-                  <Form.Label>Mensaje</Form.Label>
-                  <Form.Control as="textarea" placeholder="Tu mensaje" required/>
+                    <Form.Label>Mensaje</Form.Label>
+                    <Form.Control as="textarea" placeholder="Tu mensaje" required maxLength={500}/>
                   </Form.Group>
-                  <Button variant="primary" type="submit" className="w-100">Enviar</Button>
+                  <Button variant="primary" type="submit" className="mt-2 w-20">Enviar</Button>
               </Form>
               </div>
           </Col>
