@@ -292,11 +292,14 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <Row className="mb-3">
-      <Form.Group className="mb-3 d-flex align-items-center" controlId="validationCustom06">
-        <Form.Label className="mb-0 col-md-2 col-sm-9">Habitación seleccionada: </Form.Label>
-        <Form.Control plaintext readOnly className="col-md-10 col-sm-3" value={bookingData.room} />
-        
-      </Form.Group>
+        <Form.Group className="mb-3" controlId="validationCustom06">
+            <Form.Label style={{whiteSpace: 'nowrap'}} className="d-flex align-items-center mb-0 col-md-2 col-sm-9">
+                Habitación seleccionada: 
+                <Badge bg='secondary' className="ml-3">
+                    {bookingData.room}
+                </Badge>
+            </Form.Label>
+        </Form.Group>
         <Form.Group as={Col} md="6" controlId="validationCustom01" className="mb-3">
         <FloatingLabel
           controlId="floatingInput"
@@ -483,7 +486,7 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
 
 function Step4({ bookingData, onConfirm, setStep, step }) {
   return (
-    <>
+    <div className="d-flex flex-column align-items-center text-center">
       <h2>Resumen de tu reserva</h2>
 
       <p><strong>Nombre:</strong> {bookingData.name}</p>
@@ -493,7 +496,7 @@ function Step4({ bookingData, onConfirm, setStep, step }) {
       <p><strong>Mensaje:</strong> {bookingData.message}</p>
       <p><strong>Habitación:</strong> {bookingData.room}</p>
 
-      <div className="d-flex mt-4">
+      <div className="d-flex justify-content-center mt-4">
         <Button className="me-3 w-auto" onClick={() => setStep(step - 1)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-return-left" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
@@ -501,13 +504,13 @@ function Step4({ bookingData, onConfirm, setStep, step }) {
         </Button>
         <Button variant="primary" onClick={onConfirm}>Confirmar</Button>
       </div>
-    </>
+    </div>
   );
 }
 
 function Step5() {
   return (
-    <div>
+    <div className="d-flex justify-content-center align-items-center text-center" style={{height: '100vh'}}>
       <p>Tu solicitud ha sido enviada. Serás redirigido en unos segundos...</p>
     </div>
   );
