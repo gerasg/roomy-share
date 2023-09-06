@@ -44,7 +44,7 @@ export default function MainContent() {
           <Carousel.Caption className={styles.carouselCaption}>
             <h3>{t('welcome')}</h3>
             <Link href="/booking">
-              <Button variant="primary">¡Haz tu reserva ahora!</Button>
+              <Button variant="primary">{t('bookNow')}</Button>
             </Link>
           </Carousel.Caption>
         </Carousel.Item>
@@ -53,7 +53,7 @@ export default function MainContent() {
             <Carousel.Caption className={styles.carouselCaption}>
             <h3>Bienvenido a Roomy Share</h3>
             <Link href="/booking">
-                <Button variant="primary">¡Haz tu reserva ahora!</Button>
+                <Button variant="primary">{t('bookNow')}</Button>
             </Link>
             </Carousel.Caption>
         </Carousel.Item>
