@@ -6,8 +6,11 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Header from '../components/Header'
 import styles from '../styles/Booking.module.css'
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export default function Booking() {
+  const { t } = useTranslation();
   const [rooms, setRooms] = useState([]);
   const [value, setValue] = useState([new Date(), new Date()]);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -141,12 +144,11 @@ export default function Booking() {
     });
   };
   
-
   return (
     <div className={styles.mainContainer}>
       <Header />
       <Container className={styles.content}>
-        <h1 className={styles.reserveRoomTitle}>Reserva una habitación</h1>
+        <h1 className={styles.reserveRoomTitle}>{t('bookARoom')}</h1>
         <ProgressBar 
           className={styles.progressBar} 
           animated 
@@ -155,12 +157,12 @@ export default function Booking() {
         />
         {step === 1 && (
           <div className={styles['date-picker']}>
-            <Step1 value={value} onDateChange={handleDateChange} />
+            <Step1 value={value} onDateChange={handleDateChange} t={t}/>
           </div>
         )}
         {step === 2 && (
           <div className={styles['room-cards']}>
-            <Step2 rooms={rooms} onSelectRoom={handleSelectRoom} setStep={setStep} step={step} />
+            <Step2 rooms={rooms} onSelectRoom={handleSelectRoom} setStep={setStep} step={step} t={t}/>
           </div>
         )}
         {step === 3 && (
@@ -173,7 +175,8 @@ export default function Booking() {
               step={step} 
               setShowModal={setShowModal} 
               showModal={showModal}
-              roomNumber={bookingForm.roomNumber} 
+              t={t}
+              roomNumber={bookingForm.roomNumber}
             />
           </Container>
         )}
@@ -184,11 +187,14 @@ export default function Booking() {
               onConfirm={handleConfirm} 
               setStep={setStep} 
               step={step} 
+              t={t}
             />
           </Container>
         )}
         {step === 5 && (
-          <Step5 />
+          <Step5 
+          t={t}
+          />
         )}
       </Container>
     </div>
@@ -196,18 +202,19 @@ export default function Booking() {
 }
 
 
-function Step1({ value, onDateChange }) {
+
+function Step1({ value, onDateChange, t }) {
   return (
     <>
       <div className={styles.instructions}>
         <div className={styles.message1}>
-          <p>Por favor, elige las fechas en las que te gustaría entrar a vivir</p>
+          <p>{t('selectDates')}</p>
           <div className={styles.emojiContainer}>
             <p className={styles.emoji}>👇</p>
           </div>
         </div>
         <div className={styles.message2}>
-          <p>Por favor, elige las fechas en las que te gustaría entrar a vivir</p>
+          <p>{t('selectDates')}</p>
           <div className={styles.emojiContainer}>
             <p className={styles.emoji}>👇</p>
           </div>
@@ -220,7 +227,7 @@ function Step1({ value, onDateChange }) {
   );
 }
 
-function Step2({ rooms, onSelectRoom, setStep, step }) {
+function Step2({ rooms, onSelectRoom, setStep, step, t }) {
   return (
     <Row xs={1} sm={2} md={4} className="g-4">
       {rooms.map(room => (
@@ -232,10 +239,10 @@ function Step2({ rooms, onSelectRoom, setStep, step }) {
                 <Card.Title>Habitación {room.room_number}</Card.Title>
                 <Card.Text>
                   <Badge bg={room.is_available ? 'success' : 'danger'}>
-                    {room.is_available ? 'Libre' : 'Ocupado'}
+                  {room.is_available ? t('free') : t('occupied')}
                   </Badge>
                 </Card.Text>
-                <Button onClick={() => onSelectRoom(room.room_number)} disabled={!room.is_available}>Seleccionar</Button>
+                <Button onClick={() => onSelectRoom(room.room_number)} disabled={!room.is_available}>{t('select')} </Button>
               </Card.Body>
             </Card>
           </div>
@@ -245,7 +252,7 @@ function Step2({ rooms, onSelectRoom, setStep, step }) {
         <Button className="me-3 w-auto" onClick={() => setStep(step - 1)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-return-left" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
-          </svg> Volver 
+          </svg> {t('back')} 
         </Button>
       </div>      
     </Row>
@@ -253,7 +260,7 @@ function Step2({ rooms, onSelectRoom, setStep, step }) {
 }
 
 
-function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setShowModal, showModal }) {
+function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setShowModal, showModal, t }) {
   const [validated, setValidated] = useState(false);
   const [privacyPolicyShow, setPrivacyPolicyShow] = useState(false);
   const [show, setShow] = useState(false);
@@ -294,7 +301,7 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
       <Row className="mb-3">
         <Form.Group className="mb-3" controlId="validationCustom06">
             <Form.Label style={{whiteSpace: 'nowrap'}} className="d-flex align-items-center mb-0 col-md-2 col-sm-9">
-                Habitación seleccionada: 
+                {t('selectedRoom')} : 
                 <Badge bg='secondary' className="ml-3">
                     {bookingData.room}
                 </Badge>
@@ -303,11 +310,11 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
         <Form.Group as={Col} md="6" controlId="validationCustom01" className="mb-3">
         <FloatingLabel
           controlId="floatingInput"
-          label="Nombre"
+          label={t('firstName')} 
         >
           <Form.Control 
             type="text" 
-            placeholder="Nombre"
+            placeholder={t('firstName')}
             name="name"
             required
             value={bookingData.name}
@@ -321,13 +328,13 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
         <Form.Group as={Col} md="6" controlId="validationCustom02">
         <FloatingLabel
             controlId="floatingInput"
-            label="Apellidos"
+            label={t('lastName')}
             className="mb-3"
           >
             <Form.Control
               required
               type="text"
-              placeholder="Apellidos"
+              placeholder={t('lastName')}
               name="lastName"
               value={bookingData.lastName}
               onChange={handleChange}
@@ -341,13 +348,13 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
         <Form.Group as={Col} md="6" controlId="validationCustom03">
             <FloatingLabel
               controlId="floatingInput"
-              label="Email"
+              label={t('email')}
               className="mb-3"
             >
             <Form.Control
               required
               type="email"
-              placeholder="Email"
+              placeholder={t('email')}
               name="email"
               value={bookingData.email}
               onChange={handleChange}
@@ -359,13 +366,13 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
         <Form.Group as={Col} md="6" controlId="validationCustom04">
           <FloatingLabel
             controlId="floatingInput"
-            label="Teléfono"
+            label={t('phoneNumber')}
             className="mb-3"
           >
             <Form.Control
               required
               type="tel"
-              placeholder="Teléfono"
+              placeholder={t('phoneNumber')}
               name="phone"
               value={bookingData.phone}
               onChange={handleChange}
@@ -379,7 +386,7 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
       <Form.Group className="mb-3" controlId="validationCustom05">
         <Form.Control
           as="textarea"
-          placeholder="Mensaje"
+          placeholder={t('message')}
           name="message"
           value={bookingData.message}
           onChange={handleChange}
@@ -477,41 +484,49 @@ function Step3({ onSubmitForm, bookingData, setBookingData, setStep, step, setSh
       <Button className="me-3 w-auto" onClick={() => setStep(step - 1)}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-return-left" viewBox="0 0 16 16">
           <path fillRule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
-        </svg> Volver 
+        </svg> {t('back')} 
       </Button>
-      <Button type="submit">Enviar formulario</Button>
+      <Button type="submit">{t('sendForm')}</Button>
     </Form>
   );
 }
 
-function Step4({ bookingData, onConfirm, setStep, step }) {
+function Step4({ bookingData, onConfirm, setStep, step, t }) {
   return (
     <div className="d-flex flex-column align-items-center text-center">
-      <h2>Resumen de tu reserva</h2>
+      <h2>{t('bookingSummary')} </h2>
 
-      <p><strong>Nombre:</strong> {bookingData.name}</p>
-      <p><strong>Apellido:</strong> {bookingData.lastName}</p>
-      <p><strong>Email:</strong> {bookingData.email}</p>
-      <p><strong>Teléfono:</strong> {bookingData.phone}</p>
-      <p><strong>Mensaje:</strong> {bookingData.message}</p>
-      <p><strong>Habitación:</strong> {bookingData.room}</p>
+      <p><strong>{t('firstName')} :</strong> {bookingData.name}</p>
+      <p><strong>{t('lastName')} :</strong> {bookingData.lastName}</p>
+      <p><strong>{t('email')} :</strong> {bookingData.email}</p>
+      <p><strong>{t('phoneNumber')} :</strong> {bookingData.phone}</p>
+      <p><strong>{t('message')} :</strong> {bookingData.message}</p>
+      <p><strong>{t('room')} :</strong> {bookingData.room}</p>
 
       <div className="d-flex justify-content-center mt-4">
         <Button className="me-3 w-auto" onClick={() => setStep(step - 1)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-return-left" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
-          </svg> Volver 
+          </svg> {t('back')}
         </Button>
-        <Button variant="primary" onClick={onConfirm}>Confirmar</Button>
+        <Button variant="primary" onClick={onConfirm}>{t('confirm')}</Button>
       </div>
     </div>
   );
 }
 
-function Step5() {
+function Step5({ t }) {
   return (
     <div className="d-flex justify-content-center align-items-center text-center" style={{height: '100vh'}}>
-      <p>Tu solicitud ha sido enviada. Serás redirigido en unos segundos...</p>
+      <p>{t('requestSent')}</p>
     </div>
   );
+}
+
+export async function getServerSideProps({ locale }) {
+  return {
+    props: {
+      ...await serverSideTranslations(locale, ['common', 'footer']),
+    },
+  }
 }

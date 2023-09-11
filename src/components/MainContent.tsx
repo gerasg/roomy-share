@@ -51,7 +51,7 @@ export default function MainContent() {
         <Carousel.Item>
             <Image src="/images/carrusel2.jpg" fluid className={styles.carouselImage} />
             <Carousel.Caption className={styles.carouselCaption}>
-            <h3>Bienvenido a Roomy Share</h3>
+            <h3>{t('welcome')}</h3>
             <Link href="/booking">
                 <Button variant="primary">{t('bookNow')}</Button>
             </Link>
@@ -64,7 +64,7 @@ export default function MainContent() {
             <Card className={`h-100 ${styles.card}`}>
               <Card.Body className={styles.cardBody}>
                 <FaCity size={48} className={styles.cardIcon} />
-                <Card.Title>En el centro de la ciudad</Card.Title>
+                <Card.Title>{t('cityCentre')}</Card.Title>
                 <Card.Text>Lorem ipsum dolor sit amet...</Card.Text>
               </Card.Body>
             </Card>
@@ -73,7 +73,7 @@ export default function MainContent() {
             <Card className={`h-100 ${styles.card}`}>
               <Card.Body className={styles.cardBody}>
                 <FaTemperatureLow size={48} className={styles.cardIcon} />
-                <Card.Title>Aire acondicionado en toda la casa</Card.Title>
+                <Card.Title>{t('airConditioner')}</Card.Title>
                 <Card.Text>Lorem ipsum dolor sit amet...</Card.Text>
               </Card.Body>
             </Card>
@@ -82,7 +82,7 @@ export default function MainContent() {
             <Card className={`h-100 ${styles.card}`}>
               <Card.Body className={styles.cardBody}>
                 <FaUmbrellaBeach size={48} className={styles.cardIcon} />
-                <Card.Title>Playa a 3 minutos andando</Card.Title>
+                <Card.Title>{t('beachNear')}</Card.Title>
                 <Card.Text>Lorem ipsum dolor sit amet...</Card.Text>
               </Card.Body>
             </Card>
@@ -110,29 +110,29 @@ export default function MainContent() {
         <Row className={`${styles.contactSection} justify-content-center align-items-center`}>
           <Col xs={12} sm={8} md={6}>
               <div className={`${styles.contactBox}`}>
-              <h3 className="text-center mb-3 text-uppercase">CONTACTAR</h3>
+              <h3 className="text-center mb-3 text-uppercase">{t('contact')}</h3>
               <Form onSubmit={handleSubmit}>
                   <Form.Group controlId="contactForm.Name">
-                  <Form.Label>Nombre</Form.Label>
+                  <Form.Label>{t('firstName')}</Form.Label>
                   <Form.Control type="text" placeholder="Tu nombre" required/>
                   </Form.Group>
                   <Form.Group controlId="contactForm.LastName">
-                  <Form.Label>Apellidos</Form.Label>
+                  <Form.Label>lastName</Form.Label>
                   <Form.Control type="text" placeholder="Tus apellidos" required/>
                   </Form.Group>
                   <Form.Group controlId="contactForm.Email">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label>{t('email')}</Form.Label>
                   <Form.Control type="email" placeholder="Tu correo electrónico" required/>
                   </Form.Group>
                   <Form.Group controlId="contactForm.Phone">
-                  <Form.Label>Teléfono</Form.Label>
+                  <Form.Label>{t('phoneNumber')}</Form.Label>
                   <Form.Control type="tel" placeholder="Tu número de teléfono" required/>
                   </Form.Group>
                   <Form.Group controlId="contactForm.Message">
-                    <Form.Label>Mensaje</Form.Label>
+                    <Form.Label>{t('message')}</Form.Label>
                     <Form.Control as="textarea" placeholder="Tu mensaje" required maxLength={500}/>
                   </Form.Group>
-                  <Button variant="primary" type="submit" className="mt-2 w-20">Enviar</Button>
+                  <Button variant="primary" type="submit" className="mt-2 w-20">{t('send')}</Button>
               </Form>
               </div>
           </Col>
