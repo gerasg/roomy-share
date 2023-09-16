@@ -3,21 +3,24 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import styles from '../styles/Gallery.module.css';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const spaces = {
-  'Room 1': 4,
-  'Room 2': 4,
-  'Room 3': 4,
-  'Bathroom': 4,
-  'Toilet': 2,
-  'Common areas': 4,
-  'Kitchen': 4,
-  'Balcony': 4,
-  'Living Room': 4,
-  'VIP Room': 4,
+  'room1': 4,
+  'room2': 4,
+  'room3': 4,
+  'bathroom': 4,
+  'restroom': 2,
+  'commonAreas': 4,
+  'kitchen': 4,
+  'balcony': 4,
+  'livingRoom': 4,
+  'vipRoom': 4,
 };
 
 export default function Gallery() {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 
@@ -33,7 +36,7 @@ export default function Gallery() {
       <Container>
         {Object.entries(spaces).map(([space, numOfImages], index) => (
           <div key={index}>
-            <h2 className={styles.spaceTitle}>{space}</h2>
+            <h2 className={styles.spaceTitle}>{t(space)}</h2>
             <Row xs={1} md={4} className="g-4">
               {[...Array(numOfImages)].map((_, imageIndex) => (
                 <Col key={imageIndex}>
@@ -57,4 +60,12 @@ export default function Gallery() {
       )}
     </div>
   );
+}
+
+export async function getServerSideProps({ locale }) {
+  return {
+    props: {
+      ...await serverSideTranslations(locale, ['common', 'footer']),
+    },
+  }
 }
