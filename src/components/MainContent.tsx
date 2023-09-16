@@ -102,7 +102,7 @@ export default function MainContent() {
             </Col>
             <Col md={6} className={`m-0 p-0 ${styles.galleryCol}`}>
                 <Image src="/images/grand-image.jpg" fluid className={`${styles.galleryImage}`} />
-                <Link href="/gallery"><Button className={`${styles.galleryButton}`}>Ir a la Galería →</Button></Link>
+                <Link href="/gallery"><Button className={`${styles.galleryButton}`}>{t('goGallery')} →</Button></Link>
             </Col>
         </Row>
         <hr style={{marginBottom: 0}} />
@@ -114,23 +114,23 @@ export default function MainContent() {
               <Form onSubmit={handleSubmit}>
                   <Form.Group controlId="contactForm.Name">
                   <Form.Label>{t('firstName')}</Form.Label>
-                  <Form.Control type="text" placeholder="Tu nombre" required/>
+                  <Form.Control type="text" required/>
                   </Form.Group>
                   <Form.Group controlId="contactForm.LastName">
-                  <Form.Label>lastName</Form.Label>
-                  <Form.Control type="text" placeholder="Tus apellidos" required/>
+                  <Form.Label>{t('lastName')}</Form.Label>
+                  <Form.Control type="text" required/>
                   </Form.Group>
                   <Form.Group controlId="contactForm.Email">
                   <Form.Label>{t('email')}</Form.Label>
-                  <Form.Control type="email" placeholder="Tu correo electrónico" required/>
+                  <Form.Control type="email" required/>
                   </Form.Group>
                   <Form.Group controlId="contactForm.Phone">
                   <Form.Label>{t('phoneNumber')}</Form.Label>
-                  <Form.Control type="tel" placeholder="Tu número de teléfono" required/>
+                  <Form.Control type="tel" required/>
                   </Form.Group>
                   <Form.Group controlId="contactForm.Message">
                     <Form.Label>{t('message')}</Form.Label>
-                    <Form.Control as="textarea" placeholder="Tu mensaje" required maxLength={500}/>
+                    <Form.Control as="textarea" required maxLength={500}/>
                   </Form.Group>
                   <Button variant="primary" type="submit" className="mt-2 w-20">{t('send')}</Button>
               </Form>

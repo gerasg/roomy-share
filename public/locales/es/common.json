@@ -4,6 +4,7 @@
     "bookNow": "¡Haz tu reserva ahora!",
     "booking": "Reserva",
     "gallery": "Galería",
+    "goGallery": "Ir a la Galería",
     "faq": "Preguntas Frecuentes",
     "login": "Iniciar Sesión",
     "cityCentre": "En el centro de la ciudad",
@@ -59,5 +60,6 @@
     "extendYes": "Sí, puede extender su estancia en la casa compartida. El costo dependerá de la duración de la extensión. Comuníquese con la administración para obtener detalles específicos.",
     "whenDoesRentStart": "¿Cuándo comienza el período de alquiler?",
     "rentStart": "El período de alquiler comienza el día que te mudas y se renueva automáticamente cada mes hasta que notifiques a la administración que planeas mudarte.",
-    "askMore": "Si tienes más preguntas, no dudes en contactarnos."
+    "askMore": "Si tienes más preguntas, no dudes en contactarnos.",
+    "copyRight": "Todos los derechos reservados"
 }

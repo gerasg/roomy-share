@@ -4,6 +4,7 @@
     "welcome": "Welcome to Roomy Share",
     "bookNow": "Book Now!",
     "gallery": "Gallery",
+    "goGallery": "View Gallery",
     "faq": "FAQ",
     "login": "Login",
     "cityCentre": "In the city center",
@@ -138,5 +139,6 @@
     "askAdmin": "When in doubt, ask the Administration",
     "contactForHelp": "If you're unsure about something or need help, always contact the administration.",
     "notifyOfIssues": "Notify of any issues immediately",
-    "reportProblems": "If you encounter any issues, whether they are related to the room or the house or your safety, please report them to the administration immediately."
+    "reportProblems": "If you encounter any issues, whether they are related to the room or the house or your safety, please report them to the administration immediately.",
+    "copyRight": "All rights reserved"
 }
