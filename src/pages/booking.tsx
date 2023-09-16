@@ -103,7 +103,7 @@ export default function Booking() {
   
     // Comprueba si la diferencia es menor que 30 días
     if (differenceInDays < 30) {
-      alert('La estancia mínima es de 1 mes. Por favor, selecciona un rango de fechas de al menos 30 días. Si deseas una estancia más corta, contáctanos directamente.');
+      alert(t('minimumStay'));
       return;
     }
   

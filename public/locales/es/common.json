@@ -61,5 +61,18 @@
     "whenDoesRentStart": "¿Cuándo comienza el período de alquiler?",
     "rentStart": "El período de alquiler comienza el día que te mudas y se renueva automáticamente cada mes hasta que notifiques a la administración que planeas mudarte.",
     "askMore": "Si tienes más preguntas, no dudes en contactarnos.",
-    "copyRight": "Todos los derechos reservados"
+    "copyRight": "Todos los derechos reservados",
+    "minimumStay": "La estancia mínima es de 1 mes. Por favor, selecciona un rango de fechas de al menos 30 días. Si deseas una estancia más corta, contáctanos directamente.",
+    "canSmoke": "¿Se permite fumar en la casa compartida?",
+    "smokeNo": "No, no se permite fumar en las áreas interiores de la casa compartida. Podría haber áreas designadas para fumar al aire libre.",
+    "isHairDryer": "¿Hay una secadora de pelo disponible?",
+    "hairDryerYes": "Sí, disponemos de secadoras de pelo en los baños compartidos. Por favor, úsalas de manera respetuosa y considerada.",
+    "whatPeople": "¿Qué tipos de personas viven en la casa compartida?",
+    "diversePeople": "Nuestra casa compartida es hogar de una amplia variedad de personas, desde estudiantes hasta profesionales, tanto locales como internacionales. Estamos orgullosos de la diversidad y la comunidad inclusiva que hemos creado.",
+    "ACAvailable" : "¿Hay aire acondicionado y calefacción? ¿Puede un residente ajustar la temperatura de la máquina?",
+    "ACYes" : "Sí, hay aire acondicionado y calefacción disponibles. La temperatura se ajusta para mantener un nivel de confort para todos los residentes, pero si tienes alguna inquietud sobre la temperatura, por favor comunícate con la administración.",
+    "canUseKitchen" : "¿Puedo usar la cocina? Quiero cocinar por mí mismo y ahorrar en costos de alimentos.",
+    "kitchenYes" : "Sí, todos los residentes tienen acceso a la cocina compartida. Pedimos que todos limpien después de cocinar para mantener un ambiente limpio y agradable para todos.",
+    "whoCleans" : "¿Quién limpia la casa/ habitación?",
+    "tenantCleans" : "El personal de limpieza realiza una limpieza regular de las áreas comunes. Sin embargo, se espera que los residentes mantengan limpias sus áreas personales y limpien después de usar las áreas compartidas."
 }
