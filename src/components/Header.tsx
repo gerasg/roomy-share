@@ -37,15 +37,15 @@ export default function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className={`ml-auto ${styles.uppercaseLinks} ${styles.mobileCenter}`}>
-            <Nav.Link href="/" className={`${pathname === '/' ? styles.active : ''}`}>{t('Inicio')}</Nav.Link>
-            <Nav.Link href="/booking" className={`${pathname === '/booking' ? styles.active : ''}`}>{t('Reserva')}</Nav.Link>
-            <Nav.Link href="/gallery" className={`${pathname === '/gallery' ? styles.active : ''}`}>{t('Galería')}</Nav.Link>
-            <Nav.Link href="/faq" className={`${pathname === '/faq' ? styles.active : ''}`}>{t('FAQ')}</Nav.Link>
-            <Nav.Link href="/login" className={`${pathname === '/login' ? styles.active : ''}`}>{t('Login')}</Nav.Link>
+            <Nav.Link href="/" className={`${pathname === '/' ? styles.active : ''}`}>{t('home')}</Nav.Link>
+            <Nav.Link href="/booking" className={`${pathname === '/booking' ? styles.active : ''}`}>{t('booking')}</Nav.Link>
+            <Nav.Link href="/gallery" className={`${pathname === '/gallery' ? styles.active : ''}`}>{t('gallery')}</Nav.Link>
+            <Nav.Link href="/faq" className={`${pathname === '/faq' ? styles.active : ''}`}>{t('faq')}</Nav.Link>
+            <Nav.Link href="/login" className={`${pathname === '/login' ? styles.active : ''}`}>{t('login')}</Nav.Link>
             <NavDropdown title={i18n && i18n.language ? i18n.language.toUpperCase() : 'EN'} id="basic-nav-dropdown" onSelect={changeLanguage}>
               <NavDropdown.Item eventKey="en">EN</NavDropdown.Item>
               <NavDropdown.Item eventKey="es">ES</NavDropdown.Item>
-              <NavDropdown.Item eventKey="ja">JA</NavDropdown.Item>
+              <NavDropdown.Item eventKey="ja">日本語</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
