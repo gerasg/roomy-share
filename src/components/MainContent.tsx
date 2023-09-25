@@ -38,26 +38,28 @@ export default function MainContent() {
   return (
     <main className={`${styles.mainContent} d-flex flex-column justify-content-center align-items-center`}>
       <div className={styles.customContainer}>
-        <Carousel fade className="mb-0" interval={30000}>
-        <Carousel.Item>
-          <Image src="/images/carrusel1.jpg" fluid className={styles.carouselImage} />
-          <Carousel.Caption className={styles.carouselCaption}>
-            <h3>{t('welcome')}</h3>
-            <Link href="/booking">
-              <Button variant="primary">{t('bookNow')}</Button>
-            </Link>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
+      <Carousel fade className="mb-0" interval={30000}>
+          <Carousel.Item>
+            <Image src="/images/carrusel1.jpg" fluid className={styles.carouselImage} />
+            <Carousel.Caption className={styles.carouselCaption}>
+              <h3>{t('welcome')}</h3>
+              <Link href="/booking">
+                <Button variant="primary">{t('bookNow')}</Button>
+              </Link>
+              <p>Experience the joy of community living in our Share House!</p> {/* Caption updated */}
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item>
             <Image src="/images/carrusel2.jpg" fluid className={styles.carouselImage} />
             <Carousel.Caption className={styles.carouselCaption}>
-            <h3>{t('welcome')}</h3>
-            <Link href="/booking">
+              <h3>{t('welcome')}</h3>
+              <Link href="/booking">
                 <Button variant="primary">{t('bookNow')}</Button>
-            </Link>
+              </Link>
+              <p>Share moments, make memories in our vibrant Share House!</p> {/* Caption updated */}
             </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
+          </Carousel.Item>
+        </Carousel>
 
       <Row className={`${styles.featureRow} mb-4 justify-content-center`}>
         <Col xs={12} md={3} className={`text-center ${styles.cardContainer}`}>
