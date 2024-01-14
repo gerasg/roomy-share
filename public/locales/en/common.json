@@ -139,5 +139,10 @@
     "canUseKitchen" : "Can I use the kitchen? I want to cook for myself and save on food costs.",
     "kitchenYes" : "Yes, all residents have access to the shared kitchen. We ask that everyone cleans up after cooking to maintain a clean and pleasant environment for all.",
     "whoCleans": "Who cleans the house/room?",
-    "tenantCleans" : "Cleaning staff perform regular cleaning of common areas. However, residents are expected to keep their personal areas clean and tidy up after using shared areas."
+    "tenantCleans" : "Cleaning staff perform regular cleaning of common areas. However, residents are expected to keep their personal areas clean and tidy up after using shared areas.",
+    "loading": "Loading...",
+    "pleaseLogIn": "Please, Log In",
+    "emailPlaceholder": "eMail",
+    "passwordPlaceholder": "Password",
+    "loginButton": "Login"
 }

@@ -74,5 +74,10 @@
     "canUseKitchen" : "¿Puedo usar la cocina? Quiero cocinar por mí mismo y ahorrar en costos de alimentos.",
     "kitchenYes" : "Sí, todos los residentes tienen acceso a la cocina compartida. Pedimos que todos limpien después de cocinar para mantener un ambiente limpio y agradable para todos.",
     "whoCleans" : "¿Quién limpia la casa/ habitación?",
-    "tenantCleans" : "El personal de limpieza realiza una limpieza regular de las áreas comunes. Sin embargo, se espera que los residentes mantengan limpias sus áreas personales y limpien después de usar las áreas compartidas."
+    "tenantCleans" : "El personal de limpieza realiza una limpieza regular de las áreas comunes. Sin embargo, se espera que los residentes mantengan limpias sus áreas personales y limpien después de usar las áreas compartidas.",
+    "loading": "Cargando...",
+    "pleaseLogIn": "Por favor, inicia sesión",
+    "emailPlaceholder": "Correo electrónico",
+    "passwordPlaceholder": "Contraseña",
+    "loginButton": "Iniciar sesión"
 }

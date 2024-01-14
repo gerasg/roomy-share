@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import jwtDecode from 'jwt-decode';
 import styles from '../styles/Login.module.css'
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 interface DecodedToken {
   role: string;
@@ -12,8 +14,9 @@ export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-    const [isLoading, setIsLoading] = useState(true) // Nuevo estado para controlar la carga
+    const [isLoading, setIsLoading] = useState(true)
     const router = useRouter()
+    const { t } = useTranslation();
 
     useEffect(() => {
       const token = localStorage.getItem('token');
@@ -26,7 +29,7 @@ export default function Login() {
           router.push('/user_dashboard')
         }
       }
-      setIsLoading(false); // Una vez se ha comprobado el token, se establece isLoading a false
+      setIsLoading(false);
     }, []);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -56,12 +59,12 @@ export default function Login() {
     }
 
     if(isLoading) {
-      return <div className={styles['loading']}>Cargando...</div> 
+      return <div className={styles['loading']}>{t('loading')}</div> 
     }
 
     return (
       <div className={`${styles['login-page']}`}>
-        {isLoading && <div className={styles['loading']}>Cargando...</div>}
+        {isLoading && <div className={styles['loading']}>{t('loading')}</div>}
         <div className={`container py-5 ${styles['login-container']}`}>
             <div className={styles['login-form']}>
               <h1 className="h3 mb-3 fw-normal text-center">Por favor, inicia sesión</h1>
@@ -83,4 +86,12 @@ export default function Login() {
         </div>
       </div>
     ) 
+}
+
+export async function getServerSideProps({ locale }) {
+  return {
+    props: {
+      ...await serverSideTranslations(locale, ['common', 'footer']),
+    },
+  }
 }

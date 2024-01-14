@@ -19,7 +19,7 @@
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "next": "latest",
-    "next-i18next": "^14.0.0",
+    "next-i18next": "^14.0.3",
     "node-cron": "^3.0.2",
     "nodemailer": "^6.9.3",
     "pg": "^8.11.1",
