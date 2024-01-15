@@ -16,7 +16,8 @@ export default function Login() {
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const router = useRouter()
-    const { t } = useTranslation();
+    const { locale } = router;
+    const { t } = useTranslation('login');
 
     useEffect(() => {
       const token = localStorage.getItem('token');
@@ -30,7 +31,7 @@ export default function Login() {
         }
       }
       setIsLoading(false);
-    }, []);
+    }, [locale]);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault()
@@ -59,7 +60,7 @@ export default function Login() {
     }
 
     if(isLoading) {
-      return <div className={styles['loading']}>{t('loading')}</div> 
+      return <div className={styles['loading']}>{t('loading')}</div>
     }
 
     return (
@@ -67,20 +68,20 @@ export default function Login() {
         {isLoading && <div className={styles['loading']}>{t('loading')}</div>}
         <div className={`container py-5 ${styles['login-container']}`}>
             <div className={styles['login-form']}>
-              <h1 className="h3 mb-3 fw-normal text-center">Por favor, inicia sesión</h1>
+              <h1 className="h3 mb-3 fw-normal text-center">{t('loginTitle')}</h1>
               <form onSubmit={handleSubmit}>
                 <div className={`form-group ${styles['input-group']}`}>
-                  <label htmlFor="emailInput" className="visually-hidden">Correo electrónico</label>
-                  <input type="email" id="emailInput" className={`form-control ${styles['form-input']}`} placeholder="Correo electrónico" required
+                  <label htmlFor="emailInput" className="visually-hidden">{t('email')}</label>
+                  <input type="email" id="emailInput" className={`form-control ${styles['form-input']}`} placeholder={t('emailPlaceholder')} required
                     value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className={`form-group ${styles['input-group']}`}>
-                  <label htmlFor="passwordInput" className="visually-hidden">Contraseña</label>
-                  <input type="password" id="passwordInput" className={`form-control ${styles['form-input']}`} placeholder="Contraseña" required
+                  <label htmlFor="passwordInput" className="visually-hidden">{t('password')}</label>
+                  <input type="password" id="passwordInput" className={`form-control ${styles['form-input']}`} placeholder={t('passwordPlaceholder')} required
                     value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 {error && <div className="alert alert-danger" role="alert">{error}</div>}
-                <button className={`btn btn-lg ${styles['login-button']}`} type="submit">Iniciar sesión</button>
+                <button className={`btn btn-lg ${styles['login-button']}`} type="submit">{t('signIn')}</button>
               </form>
             </div>
         </div>
@@ -91,7 +92,7 @@ export default function Login() {
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...await serverSideTranslations(locale, ['common', 'footer']),
+      ...await serverSideTranslations(locale, ['common', 'footer', 'login']),
     },
   }
 }
