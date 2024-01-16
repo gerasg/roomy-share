@@ -46,7 +46,7 @@ export default function MainContent() {
               <Link href="/booking">
                 <Button variant="primary">{t('bookNow')}</Button>
               </Link>
-              <p>Experience the joy of community living in our Share House!</p> {/* Caption updated */}
+              <p>{t('carouselSubtitle1')}</p>
             </Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
@@ -56,7 +56,7 @@ export default function MainContent() {
               <Link href="/booking">
                 <Button variant="primary">{t('bookNow')}</Button>
               </Link>
-              <p>Share moments, make memories in our vibrant Share House!</p> {/* Caption updated */}
+              <p>{t('carouselSubtitle2')}</p>
             </Carousel.Caption>
           </Carousel.Item>
         </Carousel>
