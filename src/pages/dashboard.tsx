@@ -90,6 +90,11 @@ const Card = styled.div`
   }
 `;
 
+const CardTitle = styled.h2`
+  color: #FFFFFF;
+`;
+
+
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -118,10 +123,41 @@ const TableHeader = styled.th`
   padding: 1rem 0;
   color: #FFFFFF;
   text-align: center;
-  font-weight: bold; // This will make the font bold.
+  font-weight: bold;
   border-bottom: 2px solid #FFFFFF;
+  position: sticky;
+  top: 0;
+  background: #2C2F47; // Asegúrate de que este color de fondo no sea transparente
+  z-index: 2; // Un z-index más alto para asegurarse de que esté sobre los otros elementos
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); // Añade una sombra para una línea divisoria más definida
+  height: 90px; // Aumenta la altura si es necesario
+
   &:first-child {
     padding-right: 2rem;
+  }
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -1px; // Un poco arriba para cubrir completamente el borde superior
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #2C2F47; // El mismo color de fondo sólido
+    z-index: -1; // Debajo del contenido del th pero por encima del tbody
+  }
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px; // Altura de la sombra/borde inferior
+    bottom: -2px; // Directamente debajo del borde inferior del th
+    background: #2f3146; // El color de la sombra/borde
+    z-index: 1; // Por encima del contenido del th
   }
 `;
 
@@ -304,6 +340,7 @@ export default function Dashboard() {
           <h1>Bienvenido a tu panel de control</h1>
         </Card>
         <Card>
+        <CardTitle>Tasks</CardTitle>
         <TableContainer>
           <Table {...getTablePropsTasks()}>
             <thead>
@@ -332,6 +369,7 @@ export default function Dashboard() {
       </TableContainer>
         </Card>
         <Card>
+        <CardTitle>Payments</CardTitle>
         <TableContainer>
         <Table {...getTablePropsPayments()}>
           <thead>
