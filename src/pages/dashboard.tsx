@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useEffect, useState, useMemo } from 'react';
 import { Badge } from 'react-bootstrap';
-import { HouseFill, InfoCircle, BoxArrowInRight, Info } from 'react-bootstrap-icons';
+import { HouseFill, InfoCircle, BoxArrowInRight, Wallet2, PeopleFill, Wrench, ClipboardCheck } from 'react-bootstrap-icons';
 import styled from 'styled-components';
 import { useTable, useSortBy } from 'react-table';
 
@@ -333,6 +333,10 @@ export default function Dashboard() {
       <SideNav>
         <NavItem href="/"><HouseFill /><span>Home</span></NavItem>
         <NavItem href="/wiki"><InfoCircle /><span>Wiki</span></NavItem>
+        <NavItem href="/expenses"><Wallet2 /><span>Expenses</span></NavItem>
+        <NavItem href="/tenants"><PeopleFill /><span>Tenants</span></NavItem>
+        <NavItem href="/maintenance"><Wrench /><span>Maintenance</span></NavItem>
+        <NavItem href="/tasks-dashboard"><ClipboardCheck /><span>Tasks</span></NavItem>
         <NavItem href="/" onClick={handleLogout}><BoxArrowInRight /><span>Logout</span></NavItem>
       </SideNav>
       <MainContent>
