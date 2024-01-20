@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, useMemo } from 'react';
 import { Badge } from 'react-bootstrap';
-import { HouseFill, InfoCircle, BoxArrowInRight, Info, ListTask, Cash } from 'react-bootstrap-icons';
+import { HouseFill, InfoCircle, BoxArrowInRight, Info, ListTask, Cash, ClipboardCheck, CashStack } from 'react-bootstrap-icons';
 import styled, { css, keyframes } from 'styled-components';
 import { useTable, useSortBy } from 'react-table';
 
@@ -403,6 +403,8 @@ export default function Dashboard() {
       <SideNav>
         <NavItem href="/"><HouseFill /><span>Home</span></NavItem>
         <NavItem href="/wiki"><InfoCircle /><span>Wiki</span></NavItem>
+        <NavItem href="/tasks-dashboard"><ClipboardCheck /><span>Tasks</span></NavItem>
+        <NavItem href="/rentilities"><CashStack /><span>Rentilities</span></NavItem>
         <NavItem href="/" onClick={handleLogout}><BoxArrowInRight /><span>Logout</span></NavItem>
       </SideNav>
       <MainContent>
