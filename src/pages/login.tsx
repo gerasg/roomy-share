@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import styles from '../styles/Login.module.css'
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';

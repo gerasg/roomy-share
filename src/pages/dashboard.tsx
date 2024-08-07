@@ -6,7 +6,7 @@ import { HouseFill, InfoCircle, BoxArrowInRight, Wallet2, PeopleFill, Wrench, Cl
 import styled from 'styled-components';
 import { useTable, useSortBy } from 'react-table';
 
-const DashboardWrapper = styled.div`
+export const DashboardWrapper = styled.div`
   display: flex;
   flex-direction: row;
   min-height: 100vh;
@@ -18,13 +18,13 @@ const DashboardWrapper = styled.div`
   }
 `;
 
-const TableContainer = styled.div`
+export const TableContainer = styled.div`
   max-height: 400px; // Para 10 filas
   overflow-x: auto;
   overflow-y: auto; // Para permitir el desplazamiento vertical
 `;
 
-const SideNav = styled.div`
+export const SideNav = styled.div`
   flex: 0 0 24px;
   background: #212431;
   padding: 2rem;
@@ -40,7 +40,7 @@ const SideNav = styled.div`
   }
 `;
 
-const MainContent = styled.div`
+export const MainContent = styled.div`
   flex-grow: 1;
   padding: 2rem;
 
@@ -49,7 +49,7 @@ const MainContent = styled.div`
   }
 `;
 
-const NavItem = styled.a`
+export const NavItem = styled.a`
   display: flex;
   align-items: center;
   padding: 0.5rem 0;
@@ -71,7 +71,7 @@ const NavItem = styled.a`
   }
 `;
 
-const Card = styled.div`
+export const Card = styled.div`
   background: #2C2F47;
   border-radius: 1rem;
   padding: 1.5rem;
@@ -90,18 +90,18 @@ const Card = styled.div`
   }
 `;
 
-const CardTitle = styled.h2`
+export const CardTitle = styled.h2`
   color: #FFFFFF;
 `;
 
 
-const Table = styled.table`
+export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   text-align: left;
 `;
 
-const TableRow = styled.tr`
+export const TableRow = styled.tr`
   border-bottom: 1px solid #353848;
 
   &:last-child {
@@ -109,7 +109,7 @@ const TableRow = styled.tr`
   }
 `;
 
-const TableData = styled.td`
+export const TableData = styled.td`
   padding: 1rem 0;
   color: #FFFFFF;
   text-align: center;
@@ -119,7 +119,7 @@ const TableData = styled.td`
   }
 `;
 
-const TableHeader = styled.th`
+export const TableHeader = styled.th`
   padding: 1rem 0;
   color: #FFFFFF;
   text-align: center;
@@ -161,7 +161,7 @@ const TableHeader = styled.th`
   }
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   background: #1ABC9C;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -175,7 +175,7 @@ const Button = styled.button`
   }
 `;
 
-const StyledCheckbox = styled.input`
+export const StyledCheckbox = styled.input`
   width: 20px;
   height: 20px;
   cursor: pointer;

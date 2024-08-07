@@ -365,6 +365,49 @@ app.put('/tenant_tasks/:taskId', verifyToken, async (req, res) => {
     });
 });
 
+app.get('/monthly_expenses', verifyToken, async (req, res) => {
+    const client = new Client({ connectionString: dbUrl });
+
+    try {
+        await client.connect();
+
+        const result = await client.query(`
+            SELECT 
+                EXTRACT(MONTH FROM expense_date) as month,
+                EXTRACT(YEAR FROM expense_date) as year,
+                expense_type,
+                SUM(amount) as total_amount
+            FROM expenses
+            WHERE expense_date >= CURRENT_DATE - INTERVAL '12 months'
+            GROUP BY 1, 2, expense_type
+            ORDER BY year, month, expense_type
+        `);
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    } finally {
+        await client.end();
+    }
+});
+
+app.get('/expenses', verifyToken, async (req, res) => {
+    const client = new Client({ connectionString: dbUrl });
+
+    try {
+        await client.connect();
+
+        const result = await client.query('SELECT * FROM expenses ORDER BY expense_date DESC');
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    } finally {
+        await client.end();
+    }
+});
+
 cron.schedule('0 0 * * 1', async function() {
     await assignTasks();
     console.log("Tareas asignadas");

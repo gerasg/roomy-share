@@ -153,7 +153,11 @@ export default function Booking() {
           className={styles.progressBar} 
           animated 
           now={(step/5)*100} 
-          label={isTabletOrMobile ? `${step}/5` : `Paso ${step} de 5`} 
+          label={
+            isTabletOrMobile 
+              ? `${step}/5` 
+              : `${t('step')} ${step} ${t('of')} 5`
+          } 
         />
         {step === 1 && (
           <div className={styles['date-picker']}>

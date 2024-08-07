@@ -81,5 +81,7 @@
     "passwordPlaceholder": "Contraseña",
     "loginButton": "Iniciar sesión",
     "carouselSubtitle1": "Comparte momentos, crea recuerdos inolvidables en nuestra casa :)",
-    "carouselSubtitle2": "¡Experimenta la alegría de vivir en comunidad en nuestra Casa Compartida!"
+    "carouselSubtitle2": "¡Experimenta la alegría de vivir en comunidad en nuestra Casa Compartida!",
+    "step": "Paso",
+    "of": "de"
 }
